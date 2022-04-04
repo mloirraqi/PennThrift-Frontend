@@ -118,6 +118,28 @@ const Review = new Schema({
     },
 });
 
+const Request = new Schema({
+    id: ObjectId,
+    requestee: {
+        type: User,
+        required: true,
+    },
+    requester: {
+        type: User,
+        required: true,
+    },
+    item: {
+        type: Item,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+        maxLength: 50,
+    },
+    answered: Boolean,
+});
+
 const Notification = new Schema({
     id: ObjectId,
     date_created: Date,
@@ -132,3 +154,5 @@ const Notification = new Schema({
         required: true,
     },
 });
+
+module.exports = {User, Chat, Message, Item, Review, Notification}
