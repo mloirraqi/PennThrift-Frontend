@@ -1,13 +1,33 @@
-//Import the mongoose module
-var mongoose = require('mongoose');
-var schema = require('schema.js');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://alexscott:uGL75OxpdUYTjjTq@pennthriftbackend.stiff.mongodb.net/PennThriftBackend?retryWrites=true&w=majority";
 
-//Set up default mongoose connection
-var mongoDB = 'mongodb://127.0.0.1/my_database';
-mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
+// Create a new MongoClient
+const client = new MongoClient(uri, 
+    { useNewUrlParser: true, useUnifiedTopology: true, 
+        serverApi: ServerApiVersion.v1 });
 
-//Get the default connection
-var db = mongoose.connection;
+async function listDatabases(client){
+    databasesList = await client.db().admin().listDatabases();
+ 
+    console.log("Databases:");
+    databasesList.databases.forEach(db => console.log(` - ${db.name}`));
+};
 
-//Bind connection to error event (to get notification of connection errors)
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+async function run() {
+  try {
+    // Connect the client to the server
+    await client.connect();
+    // Establish and verify connection
+    await listDatabases(client);
+
+    await client.db("admin").command({ ping: 1 });
+    console.log("Connected successfully to server");
+  } catch(e) {
+      console.error(e);
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+
+run().catch(console.e);
