@@ -10,10 +10,4 @@ const conn = mongoose.connect(url, () => console.log('DB connected!'), {
     useUnifiedTopology: true
 });
 
-// const conn = mongoose.connection;
-
-// connection.once('open', () => {
-//     console.log("DB connected.");
-// });
-
 module.exports = conn;
