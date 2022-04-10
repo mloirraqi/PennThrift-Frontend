@@ -34,11 +34,11 @@ class Form extends Component{
                 </div>
                 {error != null && <div className="bg-[#B312120D] my-10 border-[#B31212] border h-10 flex justify-center items-center p-5  text-center flex-row">
                                         <div className="text-[#B31212]">{error}</div>
-                                        <view 
+                                        <div 
                                         onClick={() => reset()}
                                             className="mx-5 cursor-pointer">
                                             <div  className="text-[#B31212]">x</div>
-                                        </view>
+                                        </div>
                                     </div>}
             </div>
             
