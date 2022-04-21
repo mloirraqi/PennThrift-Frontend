@@ -4,9 +4,29 @@ import Form from '../components/Form';
 const Login = () =>{
     
     const [error, setError] = useState();
+    const address = 'http://localhost:4000/api/login'; 
     
     function userDetails(username,password){
-        setError('We don’t recognize that username and password. Please try again.')
+        const data = JSON.stringify({
+            'username':username,
+            'password':password,
+            'email':username,
+        });
+
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = (() =>{
+            if (request.readyState === 4) {
+                const response = request.response;
+                if(response === 'Unauthorized'){
+                    setError('We don’t recognize that username and password. Please try again.');
+                }
+                
+                
+              }
+        });
+        request.open('POST', address, true);
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        request.send(data);
     }
 
     function reset(){
