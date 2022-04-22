@@ -1,32 +1,28 @@
 import { useState } from 'react';
 import Form from '../components/Form';
-
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 const Login = () =>{
-    
+    const navigate = useNavigate()
     const [error, setError] = useState();
     const address = 'http://localhost:4000/api/login'; 
     
     function userDetails(username,password){
-        const data = JSON.stringify({
+        const data = {
             'username':username,
             'password':password,
             'email':username,
-        });
+        };
 
-        var request = new XMLHttpRequest();
-        request.onreadystatechange = (() =>{
-            if (request.readyState === 4) {
-                const response = request.response;
-                if(response === 'Unauthorized'){
-                    setError('We don’t recognize that username and password. Please try again.');
-                }
-                
-                
-              }
-        });
-        request.open('POST', address, true);
-        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        request.send(data);
+        axios.post(address, data).then(res =>{
+            localStorage.setItem('username',username)
+            navigate('/profile', { replace: true })
+            
+            
+        }).catch(err =>{
+            return err.message.split(" ").pop() == '401' ? 
+            setError('We don’t recognize that username and password. Please try again.') : null
+        })
     }
 
     function reset(){

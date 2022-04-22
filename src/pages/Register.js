@@ -1,32 +1,29 @@
 import { useState } from 'react';
 import Form from '../components/Form';
-
+import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 const Register = () =>{
-    
+    const navigate = useNavigate();
     const [error, setError] = useState();
     const address = 'http://localhost:4000/api/register'; 
 
     function userDetails(username,password){
-        const data = JSON.stringify({
+        const data = {
             'username':username,
             'password':password,
             'email':username,
-        });
+        };
 
-        var request = new XMLHttpRequest();
-        request.onreadystatechange = (() =>{
-            if (request.readyState === 4) {
-                const response = request.response;
-                
-                if(response === '"error"'){
-                    setError('Username has already been taken');
-                }
-                
-              }
-        });
-        request.open('POST', address, true);
-        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        request.send(data);
+
+        axios.post(address, data).then(res =>{
+            if(res.data === "error"){
+                setError('Username has already been taken');
+            }else{
+                localStorage.setItem('username',username)
+                navigate('/profile', { replace: true })
+            }
+            
+        })
         
     }
 

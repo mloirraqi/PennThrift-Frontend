@@ -1,38 +1,18 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-import { useNavigation } from '@react-navigation/native';
-import ButtonNm from "./ButtonNm";
-const back = require('../assets/back.png');
 
-const Header = () => {
-    const navigation = useNavigation();
+
+
+const Header = props =>{
+
 
     return(
-        <View style={styles.container}>
-            <ButtonNm
-                style={{width:100,}}
-                icon={back}
-                onPress={() => navigation.goBack()}
-                text='Back'/>
-        </View>
+        <div className="w-full bg-[#454545] py-2 flex justify-end h-12">
+            <img className='mx-1' src={require('../assets/shop_bag.png')}/>
+            <img className='mx-1' src={require('../assets/messages.png')}/>
+            <img className='mx-1' src={require('../assets/favourite.png')}/>
+            <img className='mx-1' src={require('../assets/placeholder_user_sm.png')}/>
+        </div>
     )
-}
 
-const styles = StyleSheet.create({
-    container:{
-        width:'100%',
-        padding:30,
-        
-    },
-    icon:{
-        width:15,
-        height:15,
-        marginRight:10
-    },
-    text:{
-        color:'black',
-        fontSize:15,
-        fontWeight:'400',
-    }
-})
+}
 
 export default Header;
