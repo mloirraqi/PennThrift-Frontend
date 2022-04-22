@@ -19,14 +19,14 @@ router.route('/').get((req, res) => {
 
 // get user by id
 router.route('/:id').get((req, res) => {
-    User.find({ _id: req.params.id })
+    User.findById(req.params.id)
     .then(user => res.json(user))
     .catch(err => res.status(400).json('Error! ' + err))
 });
 
 // get user by username
 router.route('/:id').get((req, res) => {
-    User.find({ _id: req.params.id })
+    User.findById(req.params.id)
     .then(user => res.json(user))
     .catch(err => res.status(400).json('Error! ' + err))
 });
