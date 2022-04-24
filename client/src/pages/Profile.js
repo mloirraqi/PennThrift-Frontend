@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Header from "../components/Header";
 
 const Profile = props => {
@@ -11,7 +12,9 @@ const Profile = props => {
                         <img
                             className="w-60 h-60" 
                             src={require('../assets/placeholder_user.png')}/>
-                        <div className="border my-10 p-10 border-gray-200">
+                        <div className="my-2 mt-5 self-start">Graduating Class : 2023</div>
+                        <div className="my-2 self-start">Interests: Clothing, Furniture</div>
+                        <div className="border my-5 p-10 border-gray-200">
                             Living life and tryna make money
                         </div>
                     </div>
@@ -39,9 +42,9 @@ const Profile = props => {
                         <div className="p-1 border border-gray-400 font-semibold m-2 bg-gray-200">
                             View Analytics
                         </div>
-                        <div className="p-1 border border-gray-400  m-2 font-semibold bg-gray-200">
+                        <Link to='/editprofile' className="p-1 border border-gray-400  m-2 font-semibold bg-gray-200">
                             Edit Profile
-                        </div>
+                        </Link>
                     </div>
                 </div>
             </div>
