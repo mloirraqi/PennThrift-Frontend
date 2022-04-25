@@ -3,20 +3,16 @@ const session       = require('express-session');
 const passport      = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const bcrypt        = require('bcrypt');
-const mongoose      = require('mongoose');
-const dotenv        = require('dotenv');
 const routes        = require('./routes/routes');
 const cors          = require('cors');
 const app           = express();
-const User          = require('./models/AuthSchema');
-dotenv.config();
+const User          = require('./models/user.model');
 
-mongoose.connect(process.env.DATABASE_ACCESS, ()=> console.log('Database connected'),{
-    useNewUrlParser:true,
-    useUnifiedTopology:true,
-})
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
-
+// connects to db
+require('./db-config');
 
 app.use(session({
     secret:process.env.SECRET_KEY,

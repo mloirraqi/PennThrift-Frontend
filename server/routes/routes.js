@@ -1,9 +1,10 @@
 
 const express       = require('express');
 const router        = express.Router();
-const authSchema    = require('../models/AuthSchema');
+const authSchema    = require('../models/user.model');
 const bcrypt        = require('bcrypt');
 const passport      = require('passport');
+const saltRounds = 10;
 
 router.post('/register', async(request, response) =>{
     const {username, email, password} = request.body;
@@ -11,14 +12,14 @@ router.post('/register', async(request, response) =>{
     const exists = await authSchema.exists({username:username});
 
     if(!exists){
-        bcrypt.genSalt(10,(err, salt) =>{
+        bcrypt.genSalt(saltRounds, (err, salt) =>{
             if(err) return (err);
             bcrypt.hash(password, salt, (err, hash) =>{
-                if(err) return console.log(err);
+                if (err) return console.log(err);
                 const newUser = new authSchema({
                     username:username,
-                    email:email,
-                    password:hash,
+                    email: email,
+                    password: hash,
                 });
             
                 newUser.save()

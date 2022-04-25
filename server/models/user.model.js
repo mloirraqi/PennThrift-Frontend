@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const ObjectId = Schema.ObjectId;
 
-const User = new Schema({
-    
-    id: ObjectId,
+const userSchema = new Schema({
     username: {
         type: String,
         required: true,
@@ -15,7 +12,6 @@ const User = new Schema({
         type: String,
         required: true,
         minLength: 1,
-        maxLength: 60,
     },
     email: {
         type: String,
@@ -37,6 +33,6 @@ const User = new Schema({
     requests_to: [{type: Schema.Types.ObjectId, ref: 'Request'}],
     chats: [{type: Schema.Types.ObjectId, ref: 'Chat'}],
     pending_notifs: [{type: Schema.Types.ObjectId, ref: 'Notification'}],
-});
+}, { collection: 'User' });
 
-module.exports = mongoose.model('PennThriftBackend', User, 'User');
+module.exports = mongoose.model('PennThriftBackend', userSchema, 'User');
