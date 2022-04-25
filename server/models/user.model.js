@@ -22,7 +22,10 @@ const userSchema = new Schema({
         minLength: 5,
         maxLength: 16,
     },
-    location: String,
+    date:{
+        type: Date,
+        default:Date.now,
+    },
     items: [{type: Schema.Types.ObjectId, ref: 'Item'}],
     reviews_for: [{type: Schema.Types.ObjectId, ref: 'Review'}],
     reviews_to: [{type: Schema.Types.ObjectId, ref: 'Review'}],
