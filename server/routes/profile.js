@@ -1,15 +1,7 @@
 const User = require('../models/user.model');
 const router = require('express').Router();
 
-router.route('/new').post((req, res) => {
-    const newUser = new User(req.body);
-
-    newUser.save()
-        .then(user => res.json(user))
-        .catch(err => res.status(400).json("Error! " + err));
-});
-
-// get all users
+// get all profiles/users
 router.route('/').get((req, res) => {
     // using .find() without a parameter will match on all user instances
     User.find()
@@ -17,27 +9,22 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json('Error! ' + err))
 });
 
-// get user by id
+// get profile/ user info by id
 router.route('/:id').get((req, res) => {
     User.findById(req.params.id)
     .then(user => res.json(user))
     .catch(err => res.status(400).json('Error! ' + err))
 });
 
-// get user by username
-router.route('/:id').get((req, res) => {
-    User.findById(req.params.id)
-    .then(user => res.json(user))
-    .catch(err => res.status(400).json('Error! ' + err))
-});
-
+// delete profile/user by id
 router.route('/delete/:id').delete((req, res) => {
     User.deleteOne({ _id: req.params.id })
         .then(success => res.json('Success! User deleted.'))
         .catch(err => res.status(400).json('Error! ' + err))
 });
 
-router.route('/update/:id').put((req, res) => {
+// edit profile/user info by id
+router.route('/edit/:id').put((req, res) => {
     User.findByIdAndUpdate(req.params.id, req.body)
         .then(user => res.json('Success! User updated.'))
         .catch(err => res.status(400).json('Error! ' + err))
