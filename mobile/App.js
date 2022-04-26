@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Welcome from './pages/Welcome';
+import Register from './pages/Register';
 
 function Temp() {
   return (
@@ -17,9 +18,9 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Temp">
+      <Stack.Navigator>
         <Stack.Screen name = "Welcome" component={Welcome} />
-        {/* <Stack.Screen name = "Register" component={} /> */}
+        <Stack.Screen name = "Register" component={Register} />
         </Stack.Navigator>
     </NavigationContainer>
   )
