@@ -7,8 +7,8 @@ const Profile = props => {
         <div>
             <Header/>
             <div className="grid grid-main justify-center w-full h-full px-5 md:px-10">
-                <div className="col-span-8 mt-20 xl:gap-20 grid grid-cols-6">
-                    <div className="xl:col-span-2 col-span-6 justify-center flex flex-col  items-center">
+                <div className="col-span-8 mt-20 lg:gap-20 grid grid-cols-6">
+                    <div className="lg:col-span-2 col-span-6 justify-center flex flex-col  items-center">
                         <img
                             className="w-60 h-60" 
                             src={require('../assets/placeholder_user.png')}/>
@@ -18,7 +18,7 @@ const Profile = props => {
                             Living life and tryna make money
                         </div>
                     </div>
-                    <div className="xl:col-span-2 col-span-6  h-fit grid gap-5">
+                    <div className="lg:col-span-2 col-span-6  h-fit grid gap-5">
                         <div className="text-4xl h-fit font-semibold">{localStorage.getItem('username')}</div>
                         <div className="flex ">
                             <img className="w-8 h-5" src={require('../assets/vimeo.png')}/>
@@ -38,7 +38,7 @@ const Profile = props => {
                             </div>
                         </div>
                     </div>
-                    <div className="xl:col-span-2 col-span-6  h-fit flex">
+                    <div className="lg:col-span-2 col-span-6  h-fit flex">
                         <div className="p-1 border border-gray-400 font-semibold m-2 bg-gray-200">
                             View Analytics
                         </div>

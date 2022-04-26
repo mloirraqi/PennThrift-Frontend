@@ -11,7 +11,7 @@ const EditProfile = props => {
             <Header/>
             <div className="grid grid-main justify-center w-full h-full px-5 md:px-10">
                 <div className="col-span-8 gap-20 my-10 grid-cols-5 grid">
-                    <div className="xl:col-span-2 col-span-5 flex flex-col  items-center">
+                    <div className="lg:col-span-2 col-span-5 flex flex-col  items-center">
                         <div className="flex mb-10 text-4xl"><div className="mr-2 h-fit font-semibold">{localStorage.getItem('username')}'s </div> profile</div>
                         <img
                             className="w-60 h-60" 
@@ -23,7 +23,7 @@ const EditProfile = props => {
                             style={{resize:"none"}}
                             className="w-full border  h-20 p-5"/>
                     </div>
-                    <div className="xl:col-span-3 col-span-5 h-fit grid gap-10 ">
+                    <div className="lg:col-span-3 col-span-5 h-fit grid gap-10 ">
                         <div className="">
                             <div className="font-semibold">My name is: <input className="bg-[#F8F8F8] ml-2 outline-0 border border-black px-2"/></div>
                         </div>
