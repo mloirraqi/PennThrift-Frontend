@@ -1,7 +1,7 @@
 
 const express       = require('express');
 const router        = express.Router();
-const authSchema    = require('../models/user.model');
+const User    = require('../models/user.model');
 const bcrypt        = require('bcrypt');
 const passport      = require('passport');
 const saltRounds = 10;
@@ -9,17 +9,17 @@ const saltRounds = 10;
 router.post('/register', async(request, response) =>{
     const {username, email, password} = request.body;
 
-    const exists = await authSchema.exists({username:username});
+    const usernameIsRegistered = await User.exists({username:username});
 
-    if(!exists){
+    if (!usernameIsRegistered) {
         bcrypt.genSalt(saltRounds, (err, salt) =>{
-            if(err) return (err);
-            bcrypt.hash(password, salt, (err, hash) =>{
+            if (err) return (err);
+            bcrypt.hash(password, salt, (err, hashedPassword) =>{
                 if (err) return console.log(err);
-                const newUser = new authSchema({
+                const newUser = new User({
                     username:username,
                     email: email,
-                    password: hash,
+                    password: hashedPassword,
                 });
             
                 newUser.save()
@@ -32,14 +32,14 @@ router.post('/register', async(request, response) =>{
             })
         })
         
-    }else{
-        response.json("error");
+    } else {
+        response.json("Error: User is already registered");
     }
     
 });
 
-router.post('/login',passport.authenticate('local',{
-}),(request, response) => {
+router.post('/login',passport.authenticate('local', {
+}), (request, response) => {
     passport.authenticate('local',(err, user, info)=>{
         response.json(user);
     })

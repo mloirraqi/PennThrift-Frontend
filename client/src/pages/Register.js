@@ -5,7 +5,7 @@ import axios from 'axios';
 const Register = () =>{
     const navigate = useNavigate();
     const [error, setError] = useState();
-    const address = 'http://localhost:4000/api/register'; 
+    const address = 'http://localhost:4000/api/auth/register'; 
 
     function userDetails(username,password){
         const data = {

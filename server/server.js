@@ -3,7 +3,7 @@ const session       = require('express-session');
 const passport      = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const bcrypt        = require('bcrypt');
-const routes        = require('./routes/routes');
+const auth        = require('./routes/auth');
 const cors          = require('cors');
 const app           = express();
 const User          = require('./models/user.model');
@@ -18,15 +18,16 @@ app.use(session({
     secret:process.env.SECRET_KEY,
     resave:false,
     saveUninitialized:true,
-}))
-app.use(express.urlencoded({extended:false}))
+}));
+
+app.use(express.urlencoded({extended:false}));
 
 app.use(express.json());
 app.use(cors());
 
 //Passport
 app.use(passport.initialize());
-app.use(passport.session())
+app.use(passport.session());
 
 passport.serializeUser( (user, done) =>{
     done(null, user._id);
@@ -41,9 +42,9 @@ passport.deserializeUser(async(id, done) => {
 
 passport.use(new localStrategy({passReqToCallBack:true}, (username, password, done) => {
     User.findOne({username:username}, (err, user) => {
-        if(err) return done(err);
+        if (err) return done(err);
 
-        if(!user) return done(null, false, {message:'Incorrect username'});
+        if (!user) return done(null, false, {message:'Incorrect username'});
 
         bcrypt.compare(password, user.password, (err, res) => {
             if (err) return done(err);
@@ -58,7 +59,7 @@ passport.use(new localStrategy({passReqToCallBack:true}, (username, password, do
 }))
 
 //routes
-app.use('/api', routes);
+app.use('/api/auth', auth);
 
 //start server
 app.listen(4000,() => console.log('server is running on port 4000'));
