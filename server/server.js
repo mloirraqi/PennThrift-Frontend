@@ -3,8 +3,9 @@ const session       = require('express-session');
 const passport      = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const bcrypt        = require('bcrypt');
-const authRoutes        = require('./routes/auth');
-const profileRoutes        = require('./routes/profile');
+const authRoutes    = require('./routes/auth');
+const profileRoutes = require('./routes/profile');
+const itemRoutes    = require('./routes/items');
 const cors          = require('cors');
 const app           = express();
 const User          = require('./models/user.model');
@@ -62,6 +63,7 @@ passport.use(new localStrategy({passReqToCallBack:true}, (username, password, do
 //routes
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/item', itemRoutes);
 
 //start server
 app.listen(4000,() => console.log('server is running on port 4000'));
