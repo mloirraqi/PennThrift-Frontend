@@ -1,59 +1,30 @@
 import React from 'react';
-import {
-  StyleSheet, Text, View, TextInput, Button, Alert,
-} from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert, } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-
-
-
+import Form from '../components/Form';
 
 function Login({ navigation }) {
-    
-    // function that sets user details
-    const userDetails = (username,password) => {
-
-        const data = {
-            'username':username,
-            'password':password,
-            'email':username,
-        };
-
-        axios.post(address, data).then(res =>{
-            localStorage.setItem('username',username)
-            navigate('/profile', { replace: true })
-            
-            
-        }).catch(err =>{
-            return err.message.split(" ").pop() == '401' ? 
-            setError('We don’t recognize that username and password. Please try again.') : null
-        })
-    }
-}
-
-const Login = () =>{
-    const navigate = useNavigate()
-    const [error, setError] = useState();
+    const [error, setError] = React.useState();
     const address = 'http://localhost:4000/api/login'; 
     
-    function userDetails(username,password){
+    // function that sets user details
+    function userDetails(username,password) {
         const data = {
             'username':username,
             'password':password,
             'email':username,
         };
 
-        axios.post(address, data).then(res =>{
-            localStorage.setItem('username',username)
-            navigate('/profile', { replace: true })
-            
-            
-        }).catch(err =>{
-            return err.message.split(" ").pop() == '401' ? 
-            setError('We don’t recognize that username and password. Please try again.') : null
-        })
+        // axios.post(address, data).then(res =>{
+        //    localStorage.setItem('username',username)
+        //    navigate('/profile', { replace: true })
+        // }).catch(err =>{
+        //    return err.message.split(" ").pop() == '401' ? 
+        //    setError('We don’t recognize that username and password. Please try again.') : null
+        // })
     }
 
-    function reset(){
+    function reset() {
         setError(null)
     }
 
@@ -69,9 +40,16 @@ const Login = () =>{
                     name='Login'/>
             </View>
         </View>
-        
     )
-}
+};
 
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });
 
 export default Login;
