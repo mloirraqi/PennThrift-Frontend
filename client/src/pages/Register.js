@@ -5,13 +5,12 @@ import axios from 'axios';
 const Register = () =>{
     const navigate = useNavigate();
     const [error, setError] = useState();
-    const address = 'http://localhost:4000/api/auth/register'; 
+    const address = '/api/auth/register'; 
 
     function userDetails(username,password){
         const data = {
             'username':username,
             'password':password,
-            'email':username,
         };
 
 
