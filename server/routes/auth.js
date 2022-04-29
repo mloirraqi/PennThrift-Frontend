@@ -1,36 +1,43 @@
 
 const express       = require('express');
 const router        = express.Router();
-const User    = require('../models/user.model');
+const User          = require('../models/user.model');
 const bcrypt        = require('bcrypt');
 const passport      = require('passport');
-const saltRounds = 10;
+const session       = require('express-session');
+let message = '';
 
+
+
+router.post('/', async(req, res) =>{
+    if (req.session.user && req.cookies.user_sid) {
+        
+        res.json([true, req.session.user])
+    } else {
+        res.json([false, null])
+    }
+});
 router.post('/register', async(request, response) =>{
-    const {username, email, password} = request.body;
+    const {username, password} = request.body;
 
-    const usernameIsRegistered = await User.exists({username:username});
-
-    if (!usernameIsRegistered) {
-        bcrypt.genSalt(saltRounds, (err, salt) =>{
-            if (err) return (err);
-            bcrypt.hash(password, salt, (err, hashedPassword) =>{
-                if (err) return console.log(err);
-                const newUser = new User({
-                    username:username,
-                    email: email,
-                    password: hashedPassword,
-                });
-            
-                newUser.save()
-                .then((data) =>{
-                    response.json(data);
-                })
-                .catch((error) =>{
-                    response.json(error);
-                });
-            })
+    const user = await User.exists({username:username});
+    
+    if (!user) {
+        
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({
+            username:username,
+            password: hashedPassword,
+        });
+        
+        newUser.save()
+        .then((data) =>{
+            request.session.user = username;
+            response.json("successful");
         })
+        .catch((error) =>{
+            response.json(error);
+        });
         
     } else {
         response.json("Error: User is already registered");
@@ -38,12 +45,21 @@ router.post('/register', async(request, response) =>{
     
 });
 
-router.post('/login',passport.authenticate('local', {
-}), (request, response) => {
-    passport.authenticate('local',(err, user, info)=>{
-        response.json(user);
-    })
-    response.json('ok')
-});
+router.post('/logout', (req, res) =>{
+    req.session.destroy();
+    res.json('Logged out')
+})
+
+router.post('/login',passport.authenticate('local', { failWithError: true }),
+  function(req, res, next) {
+    req.session.user = req.user.username;
+    res.json('success');
+  },
+  function(err, req, res, next) {
+    // handle error
+    console.log(err);
+    res.json(err);
+  }
+);
 
 module.exports = router;

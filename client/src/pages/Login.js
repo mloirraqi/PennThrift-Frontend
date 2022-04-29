@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import Form from '../components/Form';
-import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
+
 const Login = () =>{
     const navigate = useNavigate()
     const [error, setError] = useState();
-    const address = 'http://localhost:4000/api/auth/login'; 
+    const address = '/api/auth/login'; 
     
     function userDetails(username,password){
         const data = {

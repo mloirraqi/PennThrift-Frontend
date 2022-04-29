@@ -29,12 +29,12 @@ const Profile = props => {
                         </div>
                         <div className="w-full border flex flex-col justify-center w-fit items-center border-[#368481] ">
                             <div className="border-[#368481] bg-[#00000033] mx-5 mt-5  p-2 rounded-lg border">
-                                <img className="h-40 w-40" src={require('../assets/placeholder_item.png')}/>
+                                <img className="h-40 w-40" src={require('../assets/placeholder_item_rd.png')}/>
                             </div>
 
                             <div className="flex items-center mt-10 m-2 self-end">
                                 <div>Add new Item </div>
-                                <img className="w-8 h-8" src={require('../assets/plus.png')}/>
+                               <Link to='/profile/newitem'><img className="w-8 h-8" src={require('../assets/plus.png')}/></Link> 
                             </div>
                         </div>
                     </div>
@@ -42,10 +42,11 @@ const Profile = props => {
                         <div className="p-1 border border-gray-400 font-semibold m-2 bg-gray-200">
                             View Analytics
                         </div>
-                        <Link to='/editprofile' className="p-1 border border-gray-400  m-2 font-semibold bg-gray-200">
+                        <Link to='/profile/edit' className="p-1 border border-gray-400  m-2 font-semibold bg-gray-200">
                             Edit Profile
                         </Link>
                     </div>
+                    
                 </div>
             </div>
 
