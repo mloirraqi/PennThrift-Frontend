@@ -40,9 +40,13 @@ const Welcome = ({ navigation }) =>{
                      </View>
                  </View>
              </View>
+            
          </View>
+        
     )
 }
+
+
 
 
 const styles = StyleSheet.create({
