@@ -11,17 +11,16 @@ let message = '';
 
 router.post('/', async(req, res) =>{
     if (req.session.user && req.cookies.user_sid) {
-        
         res.json([true, req.session.user])
     } else {
         res.json([false, null])
     }
 });
+
 router.post('/register', async(request, response) =>{
     const {username, password} = request.body;
 
     const user = await User.exists({username:username});
-    
     if (!user) {
         
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -30,6 +29,7 @@ router.post('/register', async(request, response) =>{
             password: hashedPassword,
         });
         
+        console.log(hashedPassword)
         newUser.save()
         .then((data) =>{
             request.session.user = username;
@@ -44,6 +44,11 @@ router.post('/register', async(request, response) =>{
     }
     
 });
+
+router.get('/user', (req, res) => {
+    const user = req.session.user;
+    user ? res.json(user) : res.json(null)
+})
 
 router.post('/logout', (req, res) =>{
     req.session.destroy();

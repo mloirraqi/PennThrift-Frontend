@@ -10,9 +10,11 @@ const app           = express();
 const User          = require('./models/user.model');
 const session       = require('express-session');
 const MongoStore    = require('connect-mongo');
+const mongoose      = require('mongoose');
 const connection    = require('./db-config');
+const upload        = require('./routes/upload');
 const initializePassport = require('./passport-config');
-require('dotenv').config()
+require('dotenv').config();
 
 
 
@@ -59,6 +61,9 @@ app.use(passport.session());
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/item', itemRoutes);
+app.use('/api/file', upload);
 
 //start server
-app.listen(4000,() => console.log('server is running on port 4000'));
+const port = process.env.PORT || 4000;
+const website   = process.env.WEBSITE || 'http://localhost';
+app.listen(port,() => console.log(`server is running on ${website}:${port}`));
