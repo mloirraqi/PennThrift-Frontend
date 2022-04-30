@@ -47,8 +47,8 @@ const Login = () =>{
                     name='Login'/>
             </div>
         </div>
-        
     )
+    
 }
 
 
