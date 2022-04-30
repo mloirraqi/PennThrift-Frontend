@@ -2,6 +2,7 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, Button } from 'react-native';
 import Form from '../components/Form';
+import axios from 'axios';
 
 const Register = ({ navigation }) => {
     const [error, setError] = React.useState();
@@ -15,15 +16,15 @@ const Register = ({ navigation }) => {
         };
 
 
-        // axios.post(address, data).then(res =>{
-        //     if(res.data === "error"){
-        //         setError('Username has already been taken');
-        //     }else{
-        //         localStorage.setItem('username',username)
-        //         navigate('/profile', { replace: true })
-        //     }
+        axios.post(address, data).then(res =>{
+            if(res.data === "error"){
+                setError('Username has already been taken');
+            }else{
+                localStorage.setItem('username',username)
+                navigation.navigate('/profile', { replace: true })
+            }
             
-        // })
+        })
         
     }
 

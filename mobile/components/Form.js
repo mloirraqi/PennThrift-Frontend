@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, Image, Button, TextInput } from 'react-native';
 
 
 const Form = (props) => {
+    
     state = {
         email:'',
         password:'',
@@ -43,11 +44,12 @@ const Form = (props) => {
                                 value={password}>
                             </TextInput>
                         </View>
-                        <View
+                        <Button
                             className="bg-[#C4C4C4] my-3 w-28 cursor-pointer  h-8  flex justify-center items-center"
-                            onClick={() => userDetails(this.state.email,this.state.password)}>
-                                <Text>{name}</Text>
-                        </View>
+                            onPress={() => userDetails(state.email,state.password)}
+                            title={ name }>
+                            
+                        </Button>
                         
                     </View>
                     {error != null && <View className="bg-[#B312120D] my-10 border-[#B31212] border h-10 flex justify-center items-center p-5  text-center flex-row">
