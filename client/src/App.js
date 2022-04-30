@@ -26,7 +26,6 @@ function App() {
     axios.post('/api/auth/').then(res => {
         global.LOGGED_IN = res.data[0];
         setLoggedin(res.data[0])
-        global.USER = res.data[1];
     });
 
   }
@@ -60,6 +59,7 @@ function App() {
                 <Route path="/store" element={<Store />} />
                 <Route path="profile/newitem" element={<NewItem />} />
               </Route>
+              
           </Routes>
         </BrowserRouter>
     </div>

@@ -19,6 +19,7 @@ const Register = () =>{
                 setError('Username has already been taken');
             }else{
                 navigate('/profile', { replace: true })
+                global.LOGGED_IN = true;
             }
             
         })

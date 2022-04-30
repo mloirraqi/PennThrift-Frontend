@@ -194,7 +194,7 @@ const NewItem = props => {
                         }
                         {
                             !clickable && <img 
-                            className="w-8 h-10 right-0 cursor-pointer" 
+                            className="w-8 h-10 right-0" 
                             onClick={() => submit()}
                             src={require('../assets/loading.gif')}/>
                         }
