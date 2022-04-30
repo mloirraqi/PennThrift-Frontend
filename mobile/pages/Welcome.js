@@ -47,12 +47,24 @@ const Welcome = ({ navigation }) =>{
                                 onPress={() => 
                                     navigation.navigate('Login')}>
                                 <View style={styles.login}>
-                                <Text style={{fontSize: 16, fontWeight: "bold", color: "white"}}>Login</Text>
+                                  <Text style={{fontSize: 16, fontWeight: "bold", color: "white"}}>Login</Text>
                                 </View>
                             </TouchableHighlight>
                         </View>
-                         
                      </View>
+
+                     <View style={{marginBottom: 40}}></View>
+
+                     <View style={styles.button}>
+                            <TouchableHighlight
+                                onPress={() => 
+                                    navigation.navigate('Profile')}>
+                                <View style={styles.test_button}>
+                                  <Text style={{fontSize: 16, fontWeight: "bold", color: "white"}}>Test Profile</Text>
+                                </View>
+                            </TouchableHighlight>
+                        </View>
+
                  </View>
              </View>
             
@@ -125,6 +137,17 @@ const styles = StyleSheet.create({
         width:160,
         borderRadius:10,
         backgroundColor : "#cc1d1d",
+        justifyContent: "center",
+        alignItems: "center",
+      },
+      test_button: {
+        textAlign: "center",
+        fontSize: 20,
+        fontWeight: "bold",
+        height: 40,
+        width:160,
+        borderRadius:10,
+        backgroundColor : "#3f9669",
         justifyContent: "center",
         alignItems: "center",
       },
