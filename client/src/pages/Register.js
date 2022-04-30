@@ -18,7 +18,6 @@ const Register = () =>{
             if(res.data === "error"){
                 setError('Username has already been taken');
             }else{
-                localStorage.setItem('username',username)
                 navigate('/profile', { replace: true })
             }
             
