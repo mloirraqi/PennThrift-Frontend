@@ -1,42 +1,57 @@
 // import { Link } from 'react-router-dom';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, TouchableHighlight } from 'react-native';
 
+const Separator = () => (
+    <View style={styles.separator} />
+  );
 
 const Welcome = ({ navigation }) =>{
     return(
-        <View className='grid grid-main justify-center w-full h-full items-center'>
-            <View className='col-span-8'>
-                <Image source={require('../assets/logo.png')} className='h-24 mx-auto w-24'/>
-                <View className='my-5 text-5xl'>
-                       <Text>Welcome to PennThrift!</Text>
+        <View style={styles.container}>
+            <View >
+                <View style={styles.image}><Image source={require('../assets/logo.png')}/></View>
+                <View >
+                       <Text style={styles.title}>Welcome to PennThrift!</Text>
                 </View>
-                <View className='w-full h-[1px] bg-[gray]'></View>
-                <View className='my-5'>
-                       <Text>Your one-stop-shop for buying, trading, gifting, and thrifting at Penn.</Text>
-                </View>
-                <View className='flex mx-16 justify-between'>
-                    <View className='flex flex-col text-center'>
-                        <View className=''>
-                            <Text>New Here?</Text>
+
+                <Separator />
+
+                <View >
+                    <View >
+                        <View >
+                            <Text style={styles.question}>New Here?</Text>
                         </View>
-                            <Button
-                                title = "Register"
-                                onPress = {() => 
-                                    navigation.navigate('Register')
-                                }
-                            /> 
+
+                        <View style={styles.button}>
+                            <TouchableHighlight
+                                onPress={() => 
+                                    navigation.navigate('Register')}>
+                                <View style={styles.register}>
+                                    <Text style={{fontSize: 16, fontWeight: "bold", color: "white"}}>Register</Text>
+                                </View>
+                            </TouchableHighlight>
+                        </View>
                     </View>
-                    <View className='flex flex-col text-center'>
-                         <View className=''>
-                             <Text>Returning User?</Text> 
+
+                    <View style={{marginBottom: 10}}></View>
+
+
+                    <View >
+                         <View>
+                             <Text style={styles.question}>Returning User?</Text> 
                          </View>
-                         <Button
-                             title = "Login"
-                             onPress = {() => 
-                             navigation.navigate('Login')
-                            }
-                         /> 
+
+                         <View style={styles.button}>
+                            <TouchableHighlight
+                                onPress={() => 
+                                    navigation.navigate('Login')}>
+                                <View style={styles.login}>
+                                <Text style={{fontSize: 16, fontWeight: "bold", color: "white"}}>Login</Text>
+                                </View>
+                            </TouchableHighlight>
+                        </View>
+                         
                      </View>
                  </View>
              </View>
@@ -47,15 +62,85 @@ const Welcome = ({ navigation }) =>{
 }
 
 
-
-
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
+        flex: 1,
+        padding: 24,
+        backgroundColor: "#FFFFFF"
+      },
+      image: {
+        marginTop: 40,
+        flex: 1,
+        padding: 100,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%',
+        backgroundColor: "#FFFFFF"
+      },
+      title: {
+        marginTop: 16,
+        marginBottom: 25,
+        paddingVertical: 10,
+        textAlign: "center",
+        fontSize: 30,
+        fontWeight: "bold",
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderBottomColor: 'black',
+        borderBottomWidth: StyleSheet.hairlineWidth,
+      },
+      tagline: {
+        marginBottom: 25,
+        textAlign: "center",
+        fontSize: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      question: {
+        marginBottom: 10,
+        marginTop: 20,
+        textAlign: "center",
+        fontSize: 20,
+        fontWeight: "bold",
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      register: {
+        textAlign: "center",
+        fontSize: 20,
+        fontWeight: "bold",
+        height: 40,
+        width:160,
+        borderRadius:10,
+        backgroundColor : "#0053bf",
+        justifyContent: "center",
+        alignItems: "center",
+      },
+      login: {
+        textAlign: "center",
+        fontSize: 20,
+        fontWeight: "bold",
+        height: 40,
+        width:160,
+        borderRadius:10,
+        backgroundColor : "#cc1d1d",
+        justifyContent: "center",
+        alignItems: "center",
+      },
+      separator: {
+        marginVertical: 8,
+        borderBottomColor: '#737373',
+        borderBottomWidth: 1,
+        marginBottom: 30,
+      },
+      button: {
+        alignItems: "center",
+        flex: 1,
+        justifyContent: "center",
+        paddingHorizontal: 10,
+        marginBottom: 30,
+      },
   });
 
 export default Welcome;
