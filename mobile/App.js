@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Welcome from './pages/Welcome';
 import Register from './pages/Register';
+import Login from './pages/Login';
 
 function Temp() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name = "Welcome" component={Welcome} />
         <Stack.Screen name = "Register" component={Register} />
+        <Stack.Screen name = "Login" component={Login} />
         </Stack.Navigator>
     </NavigationContainer>
   )

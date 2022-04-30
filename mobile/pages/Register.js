@@ -32,10 +32,10 @@ const Register = ({ navigation }) => {
     }
 
     return(
-        <View className='grid grid-main justify-center w-full h-full items-center'>
-            <View className='col-span-8 flex flex-col justify-center'>
-                <View className='my-5 text-center text-5xl'><Text>Welcome!</Text></View>
-                <View className='w-full my-10 h-[1px] bg-[gray]'></View>
+        <View >
+            <View >
+                <View ><Text style={styles.title}>Welcome!</Text></View>
+                <View ></View>
                 <Form
                 userDetails={userDetails}
                 reset={reset}
@@ -54,6 +54,18 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+    title: {
+        marginTop: 75,
+        paddingVertical: 10,
+        textAlign: "center",
+        fontSize: 30,
+        fontWeight: "bold",
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderBottomColor: 'black',
+        borderBottomWidth: StyleSheet.hairlineWidth,
+      },
+
   });
 
 export default Register;
