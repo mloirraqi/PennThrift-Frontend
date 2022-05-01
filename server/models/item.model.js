@@ -12,10 +12,18 @@ const itemSchema = new Schema({
         required: true,
         maxLength: 100,
     },
-    categories: [String],
+    image: {
+        type: String,
+        required: true,
+    },
+    category:{
+        type:String,
+    },
+    price: {
+        type:Number
+    },
     owner: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
+        type: String,
         required: true,
     },
     requests_for: [{type: Schema.Types.ObjectId, ref: 'Request'}],

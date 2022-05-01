@@ -1,10 +1,17 @@
 import Header from "../components/Header"
 import { useState } from "react";
-
+import axios from "axios";
 
 
 const EditProfile = props => {
-    const [description, setDescription] = useState('Edit description')
+    const [description, setDescription] = useState('Edit description');
+    const [user, setUser] = useState('');
+    if(!user){
+        axios.get('/api/auth/user')
+             .then( res => {
+                setUser(res.data)
+            });
+    }
 
     return(
         <div>
@@ -12,7 +19,7 @@ const EditProfile = props => {
             <div className="grid grid-main justify-center w-full h-full px-5 md:px-10">
                 <div className="col-span-8 gap-20 my-10 grid-cols-5 grid">
                     <div className="lg:col-span-2 col-span-5 flex flex-col  items-center">
-                        <div className="flex mb-10 text-4xl"><div className="mr-2 h-fit font-semibold">{localStorage.getItem('username')}'s </div> profile</div>
+                        <div className="flex mb-10 text-4xl"><div className="mr-2 h-fit font-semibold">{user}'s </div> profile</div>
                         <img
                             className="w-60 h-60" 
                             src={require('../assets/placeholder_user.png')}/>

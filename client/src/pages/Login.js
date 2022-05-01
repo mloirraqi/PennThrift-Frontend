@@ -16,13 +16,18 @@ const Login = () =>{
         };
 
         axios.post(address, data).then(res =>{
-            localStorage.setItem('username',username)
-            navigate('/profile', { replace: true })
+            if(res.data === 'success'){
+                global.LOGGED_IN = true;
+                navigate('/profile', { replace: true })
+
+            }
             
             
         }).catch(err =>{
             return err.message.split(" ").pop() == '401' ? 
             setError('We don’t recognize that username and password. Please try again.') : null
+
+        
         })
     }
 
@@ -42,8 +47,8 @@ const Login = () =>{
                     name='Login'/>
             </div>
         </div>
-        
     )
+    
 }
 
 

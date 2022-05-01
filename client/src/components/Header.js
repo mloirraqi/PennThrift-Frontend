@@ -7,6 +7,7 @@ const Header = props =>{
 
     function logOut(){
         axios.post('/api/auth/logout').then(res => navigate('/login', { replace: true }))
+        global.LOGGED_IN = false;
     }
     return(
         <div className="w-full bg-[#454545] py-2 flex justify-between h-12">
