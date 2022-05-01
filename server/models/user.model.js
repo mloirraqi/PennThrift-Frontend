@@ -21,6 +21,13 @@ const userSchema = new Schema({
         minLength: 5,
         maxLength: 16,
     },
+    bio: {
+        type: String
+    },
+    class_year: {
+        type: Number
+    },
+    interests: [{type: String}],
     date:{
         type: Date,
         default:Date.now,
