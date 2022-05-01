@@ -12,7 +12,7 @@ export const getAllUserProfiles = async () => {
 // get profile/ user info by username
 export const getUserProfile = async (username) => {
     try {
-        const res = await axios.get(url + username, {params: {username} });
+        const res = await axios.get(url + username);
         return res.data;
     } catch (err) {}
     // axios.get(url, {
@@ -27,8 +27,7 @@ export const getUserProfile = async (username) => {
 // delete profile/user by id
 export const deleteUserProfile = async (username) => {
     try {
-        const res = await axios.delete(url + `delete/${username}`, 
-        {params: {username} });
+        const res = await axios.delete(url + `delete/${username}`);
         return res.data;
     } catch (err) {}
     // axios.delete(url, username)
