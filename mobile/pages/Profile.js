@@ -3,20 +3,20 @@ import axios from "axios";
 import { Component, useEffect, useState } from "react";
 import Header from "../components/Header";
 import ProfileListings from "../components/ProfileListings";
-import { StyleSheet, Text, View, Image, Button } from 'react-native';
+import { Alert, StyleSheet, Text, View, Image, Button } from 'react-native';
 import { Linking } from 'react-native';
-import { Dimensions } from 'react-native';
-
-var window_width = Dimensions.get('window').width; 
 
 
-const Profile = ({ navigation }) => {
+const Profile = ({ navigation, route }) => {
+
+    const { replace, username } = route.params;
+    
     /*
     state = {
         items:[],
         user: global.USER
     }
-    
+
     componentDidMount(){
         if(!this.state.user){
             axios.get('/api/auth/user')
@@ -70,7 +70,7 @@ const Profile = ({ navigation }) => {
                             </View>
 
                             <View style={styles.username_view}>
-                                <Text style={styles.username}>this.state.user</Text>
+                                <Text style={styles.username}>{username}</Text>
                             </View>
 
                             <View style={styles.bio_view}>
@@ -131,61 +131,17 @@ const Profile = ({ navigation }) => {
                             <Text>
                                 Your listings:
                             </Text>
-                            
+                            {/*<View >
+                                <ProfileListings
+                                    refresh={this.refresh}
+                                    data={this.state.items}/>
+                            </View>*/}
                         </View>
                     </View>
                 </View>
         </View>
     )
 }
-
-export default Profile;
-
-
-//////////////////////////////////////////////////////////////////
-
-/*
-const Register = ({ navigation }) => {
-    const [error, setError] = React.useState();
-    const address = 'http://localhost:4000/api/register'; 
-
-    function userDetails(username,password){
-        const data = {
-            'username':username,
-            'password':password,
-            'email':username,
-        };
-
-        axios.post(address, data).then(res =>{
-            if(res.data === "error"){
-                setError('Username has already been taken');
-            }else{
-                localStorage.setItem('username',username)
-                navigation.navigate('/profile', { replace: true })
-            }
-        })
-    }
-
-    function reset(){
-        setError(null)
-    }
-
-    return(
-        <View >
-            <View >
-                <View ><Text style={styles.title}>Welcome!</Text></View>
-                <View ></View>
-                <Form
-                userDetails={userDetails}
-                reset={reset}
-                error={error}
-                name='Register'/>
-            </View>
-        </View>
-    )
-};
-
-*/
 
 const styles = StyleSheet.create({
     container: {
@@ -217,7 +173,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     profile_pic: {
-        //width: .5 * window_width,  //its same to '50%' of device width
         resizeMode: 'contain',
         height: 200,
         marginTop: 30,
@@ -233,3 +188,4 @@ const styles = StyleSheet.create({
     },
   });
 
+export default Profile;

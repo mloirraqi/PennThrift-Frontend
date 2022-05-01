@@ -1,22 +1,21 @@
 import React from "react";
 import { Component } from "react";
 // import { Link } from "react-router-dom";
-import { StyleSheet, Text, View, Image, Button, TextInput, TouchableHighlight } from 'react-native';
-
-// mobile/assets/dolphin.webp 
+import { Alert, StyleSheet, Text, View, Image, Button, TextInput, TouchableHighlight } from 'react-native';
 
 const Form = (props) => {
     
+    /*
     state = {
         email:'',
         password:'',
     }
+    */
 
     const {name, error, userDetails, reset} = props;
-    const error_class = (error !=null ? 'border-[#B31212]' : 'border-black');
-    const classes = `w-fit  flex-col items-center text-start flex border-2 rounded-3xl pt-10 pb-2 px-16 ${error_class}`
-    const [password, onChangePassword] = React.useState("");
+
     const [email, onChangeEmail] = React.useState("");
+    const [password, onChangePassword] = React.useState("");
 
     return(
         <View style={styles.container}>
@@ -53,14 +52,11 @@ const Form = (props) => {
 
                         <View style={{marginTop: 25}}></View>
 
-
                         <View style={styles.button}>
-                            <TouchableHighlight
-                                onClick={() => userDetails(this.state.email,this.state.password)}>
-                                    <View style={styles.login}>
-                                    <Text style={{fontSize: 16, fontWeight: "bold", color: "white"}}>{name}</Text>
-                                    </View>
-                            </TouchableHighlight>
+                            <Button
+                                title={name}
+                                onPress={() => userDetails(email, password)}>
+                            </Button>
                         </View>
                         
                     </View>

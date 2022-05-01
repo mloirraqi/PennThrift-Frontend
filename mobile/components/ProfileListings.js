@@ -1,12 +1,52 @@
-
-/*
 import React from 'react';
 import axios from 'axios';
-import { StyleSheet, Text, View, Image, Button } from 'react-native';
-import { Component } from 'react'
 import { Link } from 'react-router-dom';
-const placeholder = require('../assets/placeholder_item.png')
+// const placeholder = require('../assets/placeholder_item.png')
+import { Alert, StyleSheet, Text, View, Image, Button, TextInput, TouchableHighlight } from 'react-native';
 
+
+const ProfileListings = (props) => {
+    return(
+        <View >
+            <View >
+                <View >
+                    <Image src={require('../assets/placeholder_item_rd.png')}/>
+                </View>
+                <View >
+                    <Text>Add new Item </Text>
+                    <Link to='/profile/newitem'><img src={require('../assets/plus.png')}/></Link> 
+                </View>
+            </View>
+            {
+                this.state.items.map(item => {
+                    return(
+                        <View key={item._id} >
+                            <Image
+                                onClick={() => this.delete(item._id)}
+                                src={require('../assets/delete.png')} />
+                            <Image src={item.image /*|| placeholder*/} />
+                            <View>
+                                <Text> 
+                                    {item.category}
+                                </Text>
+                                <View>
+                                    <Text>{item.name}</Text>
+                                    <Text> ${item.price}</Text>
+                                       <a href=''>@{item.owner}</a>
+                                </View>
+                            </View>
+                        </View>
+                    )
+                })
+            }
+        </View>
+    );
+};
+
+export default ProfileListings;
+
+
+/*
 export default class ProfileListings extends Component{
 
     state = {

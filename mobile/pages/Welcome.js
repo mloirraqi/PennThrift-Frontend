@@ -1,6 +1,6 @@
 // import { Link } from 'react-router-dom';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, Button, TouchableHighlight } from 'react-native';
+import { Alert, StyleSheet, Text, View, Image, Button, TouchableHighlight } from 'react-native';
 
 const Separator = () => (
     <View style={styles.separator} />
