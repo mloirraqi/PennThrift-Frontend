@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = '/api/profile/';
+const url = 'http://localhost:4000/api/profile/';
 
 export const getAllUserProfiles = async () => {
     try {
@@ -47,8 +47,7 @@ export const editUserProfile = async (username, venmo, bio, class_year, interest
             'interests': interests
         };
     
-        const res = await axios.put(url + `edit/${username}`, data, 
-        {params: {username}});
+        const res = await axios.put(url + `edit/${username}`, data);
         return res.data;
     } catch (err) {}
     // const data = {
@@ -73,6 +72,3 @@ export const getUserItems = async (username) => {
     // .then(res => res.data)
     // .catch(err => console.log(err))
 }
-
-module.exports = { getAllUserProfiles, getUserProfile, deleteUserProfile, 
-    editUserProfile, getUserItems }

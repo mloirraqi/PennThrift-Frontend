@@ -1,6 +1,7 @@
 import Header from "../components/Header"
 import { useState } from "react";
 import axios from "axios";
+import { editUserProfile } from "../api/ProfileAPI";
 
 
 const EditProfile = props => {
@@ -101,7 +102,8 @@ const EditProfile = props => {
                             <div className="font-semibold">My venmo is: <input className="bg-[#F8F8F8] ml-2 outline-0 border border-black px-2"/></div>
                         </div>
                         <div>
-                            <div className="flex border-2 rounded w-fit px-5 cursor-pointer border-black flex">Save</div>
+                            <div className="flex border-2 rounded w-fit px-5 cursor-pointer border-black flex" 
+                            onClick={() => editUserProfile(user, description)}>Save</div>
                         </div>
                     </div>
                 </div>
