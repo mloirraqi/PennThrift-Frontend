@@ -8,7 +8,7 @@ router.route('/views/:username').get((req, res) => {
     .catch(err => res.status(400).json('Error! ' + err))
 });
 
-router.route('views/update/:username').get((req, res) => {
+router.route('/views/update/:username').get((req, res) => {
     User.findOneAndUpdate({username: req.params.username}, req.body)
     .then(user => res.json('Success! User analytics updated.'))
     .catch(err => res.status(400).json('Error! ' + err))
