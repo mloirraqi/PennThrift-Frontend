@@ -1,18 +1,22 @@
 import Header from "../components/Header"
 import { useState } from "react";
 import axios from "axios";
-import { editUserProfile } from "../api/ProfileAPI";
+import { editUserProfile, getUserProfile } from "../api/ProfileAPI";
 
-
+// TODO: pass user info through props instead of axios
 const EditProfile = props => {
     const [description, setDescription] = useState('Edit description');
     const [user, setUser] = useState('');
-    if(!user){
-        axios.get('/api/auth/user')
-             .then( res => {
-                setUser(res.data)
-            });
+    const [userInfo, setUserInfo] = useState('');
+
+    const getUserInfo = async () => {
+        if (!userInfo) {
+            const res = await axios.get('/api/auth/user');
+            setUser(res.data);
+        }
+        setUserInfo(await getUserProfile(user));
     }
+    getUserInfo();
 
     return(
         <div>
