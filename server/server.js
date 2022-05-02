@@ -5,6 +5,7 @@ const cookieParser  = require('cookie-parser');
 const authRoutes    = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
 const itemRoutes    = require('./routes/items');
+const analyticsRoutes    = require('./routes/analytics');
 const cors          = require('cors');
 const app           = express();
 const User          = require('./models/user.model');
@@ -62,6 +63,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/item', itemRoutes);
 app.use('/api/file', upload);
+app.use('/api/analytics', analyticsRoutes);
 
 //start server
 const port = process.env.PORT || 4000;
