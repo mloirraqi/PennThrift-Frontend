@@ -36,16 +36,8 @@ export const deleteUserProfile = async (username) => {
 }
 
 // edit profile/user info by id
-export const editUserProfile = async (username, venmo, bio, class_year, interests) => {
+export const editUserProfile = async (username, data) => {
     try {
-        const data = {
-            'username': username,
-            'venmo': venmo,
-            'bio': bio,
-            'class_year': class_year,
-            'interests': interests
-        };
-    
         const res = await axios.put(url + `edit/${username}`, data);
         return res.data;
     } catch (err) {}

@@ -105,10 +105,11 @@ const NewItem = props => {
                         <div
                             onClick={() => handleClick()} 
                             className="text-blue-600 text-xs w-full flex justify-center cursor-pointer underline">
-                            Upload and image
+                            Upload an image
                             <input id='selectImage' 
                                 hidden type="file" 
                                 ref={inputRef}
+                                accept="image/png, image/gif, image/jpeg"
                                 onChange={event => processImage(inputRef.current.files[0]) } />
                         </div>
                     </div>
@@ -195,7 +196,6 @@ const NewItem = props => {
                         {
                             !clickable && <img 
                             className="w-8 h-10 right-0" 
-                            onClick={() => submit()}
                             src={require('../assets/loading.gif')}/>
                         }
 
