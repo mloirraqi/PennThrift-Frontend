@@ -31,7 +31,7 @@ router.route('/edit/:id').put((req, res) => {
 });
 
 //create a new item
-router.route('/item/new').post((req, res) => {
+router.route('/new').post((req, res) => {
     const newItem = new Item(req.body);
     newItem.save().then((data) => res.status(201).json(data)).catch((err) => res.status(400).json(err));
 })
