@@ -28,6 +28,9 @@ const userSchema = new Schema({
         type: Number
     },
     interests: [{type: String}],
+    profile_pic: {
+        type:String
+    },
     date:{
         type: Date,
         default:Date.now,
