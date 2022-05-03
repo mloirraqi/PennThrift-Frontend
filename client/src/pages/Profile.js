@@ -49,7 +49,6 @@ export default class Profile extends Component {
     }
 
     processUserInfo(info){
-        console.log(info)
         const {class_year, bio, interests, venmo, profile_pic } = info;
         this.setState({bio:bio, year:class_year, venmo:venmo, profile_pic:profile_pic});
         if(interests)this.setState({interests:interests});

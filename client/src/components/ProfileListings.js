@@ -68,7 +68,7 @@ export default class ProfileListings extends Component{
                                     <div className='flex gap-2 flex-col'>
                                         <div>{item.name}</div>
                                         <div> ${item.price}</div>
-                                           <a href='' className='text-blue-600 w-28 truncate overflow-ellipsis underline'>@{item.owner}</a>
+                                        <Link to={`/user/${item.owner}`} className='text-blue-600 w-18 truncate overflow-ellipsis underline'>@{item.owner}</Link>
                                     </div>
                                 </div>
                             </div>
