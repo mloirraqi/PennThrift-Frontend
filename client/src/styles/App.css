@@ -4,3 +4,7 @@ body,html,#root{
     width: 100%;
     font-size: 14px;
 }
+
+.grid-m{
+    grid-template-columns: repeat(8, minmax(20px,120px));
+}

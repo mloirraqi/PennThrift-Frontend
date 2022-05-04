@@ -21,33 +21,43 @@ router.post('/register', async(request, response) =>{
     const {username, password} = request.body;
 
     const user = await User.exists({username:username});
-    if (!user) {
+    try{
+        if (!user) {
         
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({
-            username:username,
-            password: hashedPassword,
-        });
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const newUser = new User({
+                username:username,
+                password: hashedPassword,
+            });
+            
+            console.log(hashedPassword)
+            newUser.save()
+            .then((data) =>{
+                request.session.user = username;
+                response.json("successful");
+            })
+            .catch((error) =>{
+                response.json(error);
+            });
+            
+        } else {
+            response.json("Error: User is already registered");
+        }
+    }catch(err){
         
-        console.log(hashedPassword)
-        newUser.save()
-        .then((data) =>{
-            request.session.user = username;
-            response.json("successful");
-        })
-        .catch((error) =>{
-            response.json(error);
-        });
-        
-    } else {
-        response.json("Error: User is already registered");
     }
+    
     
 });
 
 router.get('/user', (req, res) => {
-    const user = req.session.user;
-    user ? res.json(user) : res.json(null)
+    try{
+        const user = req.session.user;
+        user ? res.json(user) : res.json(null)
+
+    }catch(err){
+
+    }
 })
 
 router.post('/logout', (req, res) =>{

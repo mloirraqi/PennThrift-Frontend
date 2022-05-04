@@ -13,7 +13,7 @@ export default class Store extends Component {
         if(this.state.items.length === 0){
     
             axios.get('/api/item/all')
-                    .then( res => {console.log(res.data);this.setState({items: res.data})})
+                    .then( res => this.setState({items: res.data}))
                     .catch(e => console.log(e))
 
         }
