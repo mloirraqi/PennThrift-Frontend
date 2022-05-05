@@ -69,3 +69,5 @@ app.use('/api/analytics', analyticsRoutes);
 const port = process.env.PORT || 4000;
 const website   = process.env.WEBSITE || 'http://localhost';
 app.listen(port,() => console.log(`server is running on ${website}:${port}`));
+
+module.exports = app;
