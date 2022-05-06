@@ -36,7 +36,6 @@ const Welcome = ({ navigation }) =>{
 
                     <View style={{marginBottom: 10}}></View>
 
-
                     <View >
                          <View>
                              <Text style={styles.question}>Returning User?</Text> 
