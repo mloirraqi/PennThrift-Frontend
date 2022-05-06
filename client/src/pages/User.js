@@ -1,10 +1,10 @@
 import axios from "axios";
-import { Component, useEffect, useState } from "react";
-import { Link, renderMatches } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Header from "../components/Header";
-import { getUserProfile } from "../api/ProfileAPI";
 import placeholder from '../assets/placeholder_user.png';
 import StoreItems from '../components/StoreItems';
+import { updateViews, getUserProfile } from "../api/ProfileAPI";
 import { useParams } from "react-router-dom";
 
 const  User = props => {
@@ -18,16 +18,24 @@ const  User = props => {
     const [interests, setInterests]         = useState([]);
     const [processed, setProcessed]         = useState(false);
     const [items, setItems]                 = useState([]);
+    const [viewer, setViewer]               = useState();
+    const [viewed, setViewed]               = useState(false);
     const { username } = useParams();
 
     const getUserInfo = async () => {
         if (!userInfo) {
+            const res = await axios.get('/api/auth/user');
+            setViewer(res.data);
             if(username)setUserInfo(await getUserProfile(username));
         }
         if(userInfo && !processed){
             processUserInfo(userInfo);
             setProcessed(true);
 
+        }
+        if(viewer && !viewed){
+            setViewed(true)
+            updateViews(username);
         }
     }
 
@@ -50,7 +58,6 @@ const  User = props => {
             axios.get(`/api/profile/items/${username}`)
                     .then( res => {setItems(res.data.items.reverse())})
                     .catch(e => console.log(e))
-            console.log(items)
 
         }
     },[items, bio, interests, imageDisplay, venmo, year])

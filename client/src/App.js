@@ -18,7 +18,8 @@ import EditProfile from './pages/EditProfile';
 import Store from './pages/Store';
 import NewItem from './pages/NewItem';
 import User from './pages/User';
-
+import Analytics from './pages/Analytics';
+import Item from './pages/Item';
 
 function App() {
   const [loggedin, setLoggedin] = useState(null)
@@ -56,10 +57,13 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/store" element={<Store />} />
               <Route path="/user/:username"  element={<User />} />
+              <Route path='/store/item'  element={<Item/>}/>
+              <Route path='/store/item/:id' element={<Item key={Math.random()}/>}/>
               <Route element={<ProtectedRoute  />}>
                 <Route path="/profile" element={<Profile />} />
                 <Route path="profile/edit" element={<EditProfile />} />
                 <Route path="profile/newitem" element={<NewItem />} />
+                <Route path="profile/analytics" element={<Analytics/>} />
               </Route>
               
           </Routes>

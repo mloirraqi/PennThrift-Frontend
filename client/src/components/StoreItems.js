@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Component } from 'react'
 import { Link } from 'react-router-dom';
 
@@ -10,27 +11,30 @@ export default class StoreItems extends Component{
 
     state = {
         items:[],
-        favourites:[]
+        favourites:[],
+        updatedItems:[]
+
     }
+
 
     constructor(props){
         super(props);
         this.setState({items:[...props.data]}) 
     }
     componentDidMount(){
+        const items = this.props.data;
         if(this.state.items != this.props.data ){
+            
             this.setState({items: this.props.data})
-
         }
-
     }
     componentDidUpdate(){
-        if(this.state.items != this.props.data ){
+        const items = this.state.items;
+        if(items != this.props.data ){
             this.setState({items: this.props.data})
-
-        }
+         }
     }
-
+    
     
     render(){
         
@@ -53,13 +57,21 @@ export default class StoreItems extends Component{
             }
            return this.setState({favourites:[...this.state.favourites,id]})
         }
+
+        
+
+        
+
         return(
             <div className='grid justify-center mt-20 sm:grid-cols-2 lg:grid-cols-3 gap-y-5 gap-2'>
                 {
                     this.state.items.map(item => {
                         return(
-                            <div key={item.id} className="border-2 w-56 p-5 border-[#368481] w-fit">
-                                <img src={item.image} className='w-full border-[#368481] rounded-lg border-2 h-36'/>
+                            <div key={item._id}  className="border-2 w-56 p-5 border-[#368481] w-fit">
+                                <Link to={`/store/item/${item._id}`}>
+                                    <img src={item.image} className='w-full border-[#368481] rounded-lg border-2 h-36'/>
+
+                                </Link>
                                 <div className='flex mt-5 text-xs gap-5'>
                                     <div className='font-bold'> 
                                         {item.category}
