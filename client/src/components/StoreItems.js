@@ -1,5 +1,5 @@
 import { Component } from 'react'
-
+import { Link } from 'react-router-dom';
 
 
 
@@ -38,7 +38,6 @@ export default class StoreItems extends Component{
         const favourite = (id) =>{
             const favourites = this.state.favourites;
             if(favourites.includes(id)){
-                console.log(favourites)
                 return require('../assets/favourite_red.png')
             }
             return require('../assets/favourite.png')
@@ -69,7 +68,7 @@ export default class StoreItems extends Component{
                                         <div>{item.name}</div>
                                         <div> ${parseFloat(item.price)}</div>
                                        <div className='flex items-center  justify-between'> 
-                                           <a href='' className='text-blue-600 w-18 truncate overflow-ellipsis underline'>{item.owner}</a>
+                                           <Link to={`/user/${item.owner}`} className='text-blue-600 w-18 truncate overflow-ellipsis underline'>@{item.owner}</Link>
                                            <img 
                                             onClick={() => update(item._id)}
                                             src={favourite(item._id)}  

@@ -17,6 +17,7 @@ import Profile  from './pages/Profile';
 import EditProfile from './pages/EditProfile';
 import Store from './pages/Store';
 import NewItem from './pages/NewItem';
+import User from './pages/User';
 
 
 function App() {
@@ -53,10 +54,11 @@ function App() {
               <Route path="/" element={<Welcome />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/store" element={<Store />} />
+              <Route path="/user/:username"  element={<User />} />
               <Route element={<ProtectedRoute  />}>
                 <Route path="/profile" element={<Profile />} />
                 <Route path="profile/edit" element={<EditProfile />} />
-                <Route path="/store" element={<Store />} />
                 <Route path="profile/newitem" element={<NewItem />} />
               </Route>
               

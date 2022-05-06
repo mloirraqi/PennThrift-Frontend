@@ -21,6 +21,16 @@ const userSchema = new Schema({
         minLength: 5,
         maxLength: 16,
     },
+    bio: {
+        type: String
+    },
+    class_year: {
+        type: Number
+    },
+    interests: [{type: String}],
+    profile_pic: {
+        type:String
+    },
     date:{
         type: Date,
         default:Date.now,
@@ -32,6 +42,8 @@ const userSchema = new Schema({
     requests_to: [{type: Schema.Types.ObjectId, ref: 'Request'}],
     chats: [{type: Schema.Types.ObjectId, ref: 'Chat'}],
     pending_notifs: [{type: Schema.Types.ObjectId, ref: 'Notification'}],
+    profile_views: {
+        type: [{type: Number}], default: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
 }, { collection: 'User' });
 
 module.exports = mongoose.model('PennThriftBackend', userSchema, 'User');

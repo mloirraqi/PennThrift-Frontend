@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = '/api/profile/';
+const url = 'http://localhost:4000/api/profile/';
 
 export const getAllUserProfiles = async () => {
     try {
@@ -12,7 +12,7 @@ export const getAllUserProfiles = async () => {
 // get profile/ user info by username
 export const getUserProfile = async (username) => {
     try {
-        const res = await axios.get(url + username, {params: {username} });
+        const res = await axios.get(url + username);
         return res.data;
     } catch (err) {}
     // axios.get(url, {
@@ -27,8 +27,7 @@ export const getUserProfile = async (username) => {
 // delete profile/user by id
 export const deleteUserProfile = async (username) => {
     try {
-        const res = await axios.delete(url + `delete/${username}`, 
-        {params: {username} });
+        const res = await axios.delete(url + `delete/${username}`);
         return res.data;
     } catch (err) {}
     // axios.delete(url, username)
@@ -37,16 +36,9 @@ export const deleteUserProfile = async (username) => {
 }
 
 // edit profile/user info by id
-export const editUserProfile = async (username, email, password) => {
+export const editUserProfile = async (username, data) => {
     try {
-        const data = {
-            'username': username,
-            'email': email,
-            'password': password
-        };
-    
-        const res = await axios.put(url + `edit/${username}`, data, 
-        {params: {username}});
+        const res = await axios.put(url + `edit/${username}`, data);
         return res.data;
     } catch (err) {}
     // const data = {
@@ -71,6 +63,3 @@ export const getUserItems = async (username) => {
     // .then(res => res.data)
     // .catch(err => console.log(err))
 }
-
-module.exports = { getAllUserProfiles, getUserProfile, deleteUserProfile, 
-    editUserProfile, getUserItems }

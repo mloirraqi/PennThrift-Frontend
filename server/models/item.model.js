@@ -36,6 +36,10 @@ const itemSchema = new Schema({
         required: true,
     },
     available: Boolean,
+    views: {
+        type: Number,
+        default: 0,
+    },
 }, { collection: 'Item' });
 
 module.exports = mongoose.model('Item', itemSchema);

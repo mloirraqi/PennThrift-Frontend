@@ -3,6 +3,8 @@ import { Component, useEffect, useState } from "react";
 import { Link, renderMatches } from "react-router-dom";
 import Header from "../components/Header";
 import ProfileListings from "../components/ProfileListings";
+import { getUserProfile } from "../api/ProfileAPI";
+import placeholder from '../assets/placeholder_user.png';
 
 
 export default class Profile extends Component {
@@ -10,37 +12,74 @@ export default class Profile extends Component {
 
     state = {
         items:[],
-        user:global.USER
+        user:global.USER,
+        bio:'',
+        profile_pic:'',
+        venmo:'',
+        year:'',
+        processed:false,
+        userInfo:'',
+        interests:[],
     }
     componentDidMount(){
-        if(!this.state.user){
+        const user = this.state.user;
+        const items = this.state.items;
+        const processed = this.state.processed;
+        const userInfo = this.state.userInfo;
+        if(!user){
             axios.get('/api/auth/user')
                  .then( res => {
-                    this.setState({ user: res.data})
-                });
+                    this.setState({ user: res.data});
+            });
         }
-        if(this.state.items.length === 0 && this.state.user){
+        if(items.length === 0 && user){
     
-            axios.get('/api/profile/items/'+ this.state.user)
+            axios.get(`/api/profile/items/${user}`)
                     .then( res => {this.setState({items: res.data.items.reverse()})})
                     .catch(e => console.log(e))
 
+        }
+        
+        if(user)getUserProfile(user).then(info => this.setState({userInfo:info}))
+        if(user && userInfo && !processed){
+            this.processUserInfo(userInfo);
+            this.setState({processed:true})
         }
 
     }
+
+    processUserInfo(info){
+        const {class_year, bio, interests, venmo, profile_pic } = info;
+        this.setState({bio:bio, year:class_year, venmo:venmo, profile_pic:profile_pic});
+        if(interests)this.setState({interests:interests});
+
+    }
+
+
+
     componentDidUpdate(){
-        if(!this.state.user){
+        const user = this.state.user;
+        const items = this.state.items;
+        const processed = this.state.processed;
+        const userInfo = this.state.userInfo;
+        if(!user){
             axios.get('/api/auth/user')
                  .then( res => {
-                    this.setState({ user: res.data})
-                });
+                    this.setState({ user: res.data});
+            });
+            
         }
-        if(this.state.items.length === 0 && this.state.user){
+        if(items.length === 0 && user){
     
-            axios.get('/api/profile/items/'+ this.state.user)
+            axios.get(`/api/profile/items/${user}`)
                     .then( res => {this.setState({items: res.data.items.reverse()})})
                     .catch(e => console.log(e))
 
+        }
+        if(user)getUserProfile(user).then(info => this.setState({userInfo:info}))
+        if(user && userInfo && !processed){
+            this.processUserInfo(userInfo);
+            this.setState({processed:true})
         }
 
     }
@@ -48,7 +87,7 @@ export default class Profile extends Component {
     refresh = () =>{
         const user = this.state.user;
         if(user){
-            axios.get('/api/profile/items/'+ user)
+            axios.get(`/api/profile/items/${user}`)
                     .then( res => {this.setState({items: res.data.items.reverse()})})
                     .catch(e => console.log(e))
 
@@ -65,12 +104,20 @@ export default class Profile extends Component {
                     <div className="col-span-8 mt-20 lg:gap-20 grid grid-cols-6">
                         <div className="lg:col-span-2 col-span-6 flex flex-col  items-center">
                             <img
-                                className="w-60 h-60" 
-                                src={require('../assets/placeholder_user.png')}/>
-                            <div className="my-2 mt-5 self-start">Graduating Class : 2023</div>
-                            <div className="my-2 self-start">Interests: Clothing, Furniture</div>
-                            <div className="border my-5 p-10 border-gray-200">
-                                Living life and tryna make money
+                                className="w-60 rounded-full h-60" 
+                                src={this.state.profile_pic || placeholder}/>
+                            <div className="my-2 mt-5 self-start">Graduating Class : {this.state.year}</div>
+                            <div className="my-2 lg:max-w-[250px] self-start">Interests: 
+                                {
+                                    this.state.interests.map((intr, index) => {
+                                        return(
+                                            <span> {intr} {index < this.state.interests.length - 1 ? ", " : ""}</span>
+                                        )
+                                    })
+                                }
+                            </div>
+                            <div className="border my-5 w-full p-10 border-gray-200">
+                                    {this.state.bio}
                             </div>
                         </div>
                         <div className="lg:col-span-4 col-span-6  h-fit grid gap-5">
@@ -81,7 +128,7 @@ export default class Profile extends Component {
                                     <div className="flex ">
 
                                         <img className="w-8 h-5" src={require('../assets/vimeo.png')}/>
-                                        <div className="font-bold">@Thrift_God.69</div>
+                                        <div className="font-bold">{this.state.venmo}</div>
                                     </div>
                                 </div>
                                 
