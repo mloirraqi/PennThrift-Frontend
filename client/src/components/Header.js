@@ -25,7 +25,7 @@ const Header = props =>{
             }
             <div className='flex'>
                 <Link to='/store'><img className='mx-1 w-8 h-8' src={require('../assets/shop_bag.png')}/></Link>
-                <Link to='/'><img className='mx-1 w-8 h-8' src={require('../assets/messages.png')}/></Link>
+                <Link to='/profile/messages'><img className='mx-1 w-8 h-8' src={require('../assets/messages.png')}/></Link>
                 <Link to='/'><img className='mx-1 w-8 h-8' src={require('../assets/favourite.png')}/></Link>
                 <Link to='/profile'><img className='mx-1 w-8 h-8' src={require('../assets/placeholder_user_sm.png')}/></Link>
 

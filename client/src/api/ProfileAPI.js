@@ -81,3 +81,19 @@ export const updateViews = async (username) =>{
 
     }
 }
+
+export const getUserChats = async (username) => {
+    try{
+        const res = await axios.get(`/api/profile/chats/${username}`);
+        return res.data
+    }catch{
+
+    }
+}
+
+export const getUserImage = async(username) => {
+    try {
+        const res = await axios.get(url + username)
+        return res.data.profile_pic;
+    } catch (err) {}
+}

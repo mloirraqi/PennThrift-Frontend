@@ -8,3 +8,8 @@ body,html,#root{
 .grid-m{
     grid-template-columns: repeat(8, minmax(20px,120px));
 }
+
+a:link{
+    text-decoration: none !important;
+    text-decoration-color:none !important ;
+}
