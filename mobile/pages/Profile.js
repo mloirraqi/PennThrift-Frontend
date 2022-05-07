@@ -10,7 +10,7 @@ import { Linking } from 'react-native';
 const Profile = ({ navigation, route }) => {
 
     const { replace, username } = route.params;
-    
+
     /*
     state = {
         items:[],
@@ -60,7 +60,9 @@ const Profile = ({ navigation, route }) => {
     const venmo_handle = "@Thrift_God.69"
 
     return(
-        <ScrollView>
+        <View>
+        <Header navigation={navigation}/>
+            <ScrollView>
                 <View>
                     <View>
                         <View style={styles.bio_box}>
@@ -119,7 +121,7 @@ const Profile = ({ navigation, route }) => {
                             <View style={styles.button}>
                                 <Pressable
                                     onPress={() => 
-                                        navigation.navigate('Welcome')}
+                                        navigation.navigate('Analytics')}
                                     activeOpacity={0.6}
                                     underlayColor="#DDDDDD">
                                     <View style={styles.analytics_button}>
@@ -131,7 +133,7 @@ const Profile = ({ navigation, route }) => {
                             <View style={styles.button}>
                                 <Pressable
                                     onPress={() => 
-                                        navigation.navigate('Welcome')}>
+                                        navigation.navigate('NewItem')}>
                                     <View style={styles.new_item_button}>
                                         <Text style={{fontSize: 20, fontWeight: "bold", color: "white"}}>Add New Item</Text>
                                     </View>
@@ -144,12 +146,16 @@ const Profile = ({ navigation, route }) => {
                                 //refresh={this.refresh}
                                 //data={this.state.items}
                                 user={username}
+                                navigation={navigation}
                                 />
                         </View>
                     </View>
                 </View>
             </View>
+            
+            <View style={{marginBottom: 150}}></View>
         </ScrollView>
+    </View>
     )
 }
 

@@ -27,6 +27,7 @@ const Register = ({ navigation }) => {
         })
         */
         navigation.navigate('Profile', { replace: true, username: data.username })
+    
     }
 
     function reset(){
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     title: {
-        marginTop: 75,
+        marginTop: 80,
         paddingVertical: 10,
         textAlign: "center",
         fontSize: 30,

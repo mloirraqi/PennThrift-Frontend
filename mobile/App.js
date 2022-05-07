@@ -6,16 +6,12 @@ import Welcome from './pages/Welcome';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
-
-
-function Temp() {
-  return (
-    <View style={styles.container}>
-      <Text>Hello Julia</Text>
-      <StatusBar  style="auto" />
-    </View>
-  );
-}
+import NewItem from './pages/NewItem';
+import Store from './pages/Store';
+import Chat from './pages/Chat';
+import Favorite from './pages/Favorite';
+import Analytics from './pages/Analytics';
+import User from './pages/User';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -25,8 +21,14 @@ export default function App() {
         <Stack.Screen name = "Welcome" component={Welcome} />
         <Stack.Screen name = "Register" component={Register} />
         <Stack.Screen name = "Login" component={Login}/>
-        <Stack.Screen name = "Profile" component={Profile} />
-        </Stack.Navigator>
+        <Stack.Screen name = "Profile" component={Profile}/>
+        <Stack.Screen name = "NewItem" component={NewItem}/>
+        <Stack.Screen name = "Store" component={Store}/>
+        <Stack.Screen name = "Chat" component={Chat}/>
+        <Stack.Screen name = "Favorite" component={Favorite}/>
+        <Stack.Screen name = "Analytics" component={Analytics}/>
+        <Stack.Screen name = "User" component={User}/>
+      </Stack.Navigator>
     </NavigationContainer>
   )
 }

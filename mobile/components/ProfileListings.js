@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 // const placeholder = require('../assets/placeholder_item.png')
-import { Alert, StyleSheet, Text, View, Image, Button, TextInput, TouchableHighlight, ScrollView, Dimensions } from 'react-native';
+import { Alert, StyleSheet, Text, View, Image, Button, TextInput, TouchableHighlight, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('screen');
 
 
@@ -35,6 +35,8 @@ const ProfileListings = (props) => {
 
     const items = [item1, item2, item3];
 
+    const navigation = props.navigation;
+
     return(
         <View >
             {
@@ -42,11 +44,16 @@ const ProfileListings = (props) => {
                 return(
                     <View key={item.id} style={styles.box}>
                         <View>
-
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Text style={styles.category}>{item.category.toUpperCase()}</Text>
-                                <Image source={require('../assets/delete.png')} style={styles.delete_icon} />
-                            </View>
+                          
+                          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={styles.category}>{item.category.toUpperCase()}</Text>
+                            <TouchableOpacity
+                              onPress={() => Alert.alert("Are you sure you want to remove this item...?")}>
+                                <Image
+                                  source={require('../assets/delete.png')}
+                                  style={styles.delete_icon} />
+                            </TouchableOpacity>
+                          </View>
 
                             <View>
                                 <Image
@@ -54,6 +61,7 @@ const ProfileListings = (props) => {
                                     resizeMode='contain'
                                     source={{uri: item.image}}/>
                             </View>
+
                         </View>
                         
                         <View>

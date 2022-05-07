@@ -27,6 +27,7 @@ const Form = (props) => {
                         </View>
                         <View style={{backgroundColor:"#fff", paddingTop:5, paddingBottom:5, borderWidth:1, borderColor:"#0053bf"}}>
                             <TextInput
+                                style={styles.text_box}
                                 placeholder='  Input email'
                                 onChangeText={onChangeEmail}
                                 //  onChange={(event) => this.setState({email:event.target.value})}
@@ -41,7 +42,8 @@ const Form = (props) => {
                             <Text style={styles.subhead}>Password</Text>
                         </View>
                         <View style={{backgroundColor:"#fff", paddingTop:5, paddingBottom:5, borderWidth:1, borderColor:"#0053bf"}}>
-                            <TextInput 
+                            <TextInput
+                                style={styles.text_box}
                                 placeholder='  Input password'
                                 onChangeText={onChangePassword}
                 //                 onChangeText={(event) => this.setState({password:event.target.value})}
@@ -124,6 +126,10 @@ const styles = StyleSheet.create({
         height: 50,
         resizeMode: 'contain'
       },
+      text_box: {
+        margin: 5,
+        width: 200
+    },
   });
 
 export default Form;
