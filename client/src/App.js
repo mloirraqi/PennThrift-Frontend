@@ -20,6 +20,7 @@ import NewItem from './pages/NewItem';
 import User from './pages/User';
 import Analytics from './pages/Analytics';
 import Item from './pages/Item';
+import Messages from './pages/Messages';
 
 function App() {
   const [loggedin, setLoggedin] = useState(null)
@@ -58,12 +59,14 @@ function App() {
               <Route path="/store" element={<Store />} />
               <Route path="/user/:username"  element={<User />} />
               <Route path='/store/item'  element={<Item/>}/>
-              <Route path='/store/item/:id' element={<Item key={Math.random()}/>}/>
+              <Route path='/store/item/:id' element={<Item />}/>
               <Route element={<ProtectedRoute  />}>
                 <Route path="/profile" element={<Profile />} />
-                <Route path="profile/edit" element={<EditProfile />} />
-                <Route path="profile/newitem" element={<NewItem />} />
-                <Route path="profile/analytics" element={<Analytics/>} />
+                <Route path="/profile/edit" element={<EditProfile />} />
+                <Route path="/profile/newitem" element={<NewItem />} />
+                <Route path="/profile/analytics" element={<Analytics/>} />
+                <Route path="/profile/messages" element={<Messages/>} />
+                <Route path="/profile/messages/:id" element={<Messages/>} />
               </Route>
               
           </Routes>
