@@ -40,7 +40,7 @@ const userSchema = new Schema({
     reviews_to: [{type: Schema.Types.ObjectId, ref: 'Review'}],
     requests_for: [{type: Schema.Types.ObjectId, ref: 'Request'}],
     requests_to: [{type: Schema.Types.ObjectId, ref: 'Request'}],
-    chats: [{type: Schema.Types.ObjectId, ref: 'Chat'}],
+    chats: [{type: Schema.Types.ObjectId, ref: 'Messages'}],
     pending_notifs: [{type: Schema.Types.ObjectId, ref: 'Notification'}],
     profile_views: {
         type: [{type: Number}], default: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
