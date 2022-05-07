@@ -1,6 +1,5 @@
-// import { Link } from 'react-router-dom';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, Button, TouchableHighlight } from 'react-native';
+import { Alert, StyleSheet, Text, View, Image, Button, TouchableHighlight } from 'react-native';
 
 const Separator = () => (
     <View style={styles.separator} />
@@ -14,6 +13,8 @@ const Welcome = ({ navigation }) =>{
                 <View >
                        <Text style={styles.title}>Welcome to PennThrift!</Text>
                 </View>
+
+                <Text style={styles.tagline}>Your one-stop-shop for buying, trading, gifting, and thrifting at Penn.</Text>
 
                 <Separator />
 
@@ -36,7 +37,6 @@ const Welcome = ({ navigation }) =>{
 
                     <View style={{marginBottom: 10}}></View>
 
-
                     <View >
                          <View>
                              <Text style={styles.question}>Returning User?</Text> 
@@ -58,9 +58,9 @@ const Welcome = ({ navigation }) =>{
                      <View style={styles.button}>
                             <TouchableHighlight
                                 onPress={() => 
-                                    navigation.navigate('Profile')}>
+                                    navigation.navigate('User')}>
                                 <View style={styles.test_button}>
-                                  <Text style={{fontSize: 16, fontWeight: "bold", color: "white"}}>Test Profile</Text>
+                                  <Text style={{fontSize: 16, fontWeight: "bold", color: "white"}}>Test User</Text>
                                 </View>
                             </TouchableHighlight>
                         </View>
@@ -103,7 +103,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: StyleSheet.hairlineWidth,
       },
       tagline: {
-        marginBottom: 25,
+        marginBottom: 10,
+        marginTop: 10,
         textAlign: "center",
         fontSize: 20,
         justifyContent: 'center',
