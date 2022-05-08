@@ -5,8 +5,11 @@ import Header from "../components/Header";
 import placeholder from '../assets/placeholder_user.png';
 import StoreItems from '../components/StoreItems';
 import { updateViews, getUserProfile } from "../api/ProfileAPI";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import io from 'socket.io-client';
+
+const socket = io.connect('http://localhost:4000/api/messages')
+
 const  User = props => {
     
   
@@ -53,14 +56,12 @@ const  User = props => {
     }
     async function processMessageRequest(){
         if(viewer){
+            
             const users = [viewer, username];
-            const res = await axios.post('/api/messages/getOpen', {users:users})
-            if(!res.data){
-                const res = await axios.post('/api/messages/create', {users:users});
-                navigate( `/profile/messages/${res.data._id}`)
-            }else{
-                navigate( `/profile/messages/${res.data._id}`)
-            }
+            socket.emit('get-open', users);
+            socket.on('message-navigate', id => {
+                navigate( `/profile/messages/${id}`)
+            });
         }else{
             navigate('/login')
         }
@@ -144,3 +145,7 @@ const  User = props => {
 }
 
 export default User;
+    
+
+    
+

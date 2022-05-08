@@ -1,24 +1,30 @@
-
 import Header from '../components/Header';
 import { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getUserChats, getUserProfile, getUserImage } from "../api/ProfileAPI";
 import axios from "axios";
 import placeholder from '../assets/placeholder_user_sm.png'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import ScrollableFeed from 'react-scrollable-feed'
 import FileViewer from 'react-file-viewer';
-import { useNavigate } from 'react-router-dom';
+import io from 'socket.io-client';
+
+const socket = io.connect('http://localhost:4000/api/messages')
+
 const Messages = props => {
 
     const {id} = useParams();
-    const [chats, setChats] = useState([]);
+
+    const location = useLocation();
+    const propsChat = location.state;
+    const [chats, setChats] = useState(propsChat || []);
     const [user, setUser] = useState('');
     const [messages, setMessages] = useState([]);
     const [text, setText]           = useState('');
     const [attachment, setAttachment] = useState('');
     const [attachmentDisplay , setAttachmentDisplay]    = useState();
     const [receiver , setReceiver]       = useState('');
+    const [users, setUsers]             = useState([])
     const [sender, setSender]           = useState('');
     const [chatImages, setChatImages] = useState('');
     const [stateId , setStateId]  = useState(id);
@@ -27,7 +33,7 @@ const Messages = props => {
     const navigate = useNavigate();
     const [processed, setProcessed] = useState(false)
     const [allowed, setAllowed] = useState(false)
-
+    const [joined, setJoined] = useState(false); 
 
 
     async function checkAllowed(){
@@ -37,45 +43,45 @@ const Messages = props => {
                 chts.map( cht => {
                     if(cht._id === id){
                         setAllowed(true);
-                        setProcessed(true)
                     }
                 })
+                
+                setProcessed(true)
             
             }
         }
     }
     checkAllowed();
 
+
+
     async function setUp(){
+       
         if(!user){
             const res = await axios.get('/api/auth/user');
             setUser(res.data)
         }
-        if((!receiver || !sender || messages.length == 0 ) && id && user && allowed ){
-            const res = await axios.post(`/api/messages/get/${id}`);
-            const users = res.data.users;
-            const msgs = res.data.messages;
-            if(!receiver || !sender ){
-                users.map( async usr => {
-                    if(user != usr){
-                        setReceiver( await getUserProfile(usr))
-                    }else{
-                        setSender( await getUserProfile(user))
-                    }
-                })
-
-            }
-            if(messages.length == 0 && allowed){
-                setMessages(msgs)
-            }
-        }
         if(chats.length === 0 && user ){
             setChats(  await getUserChats(user));
+        } 
+    
+
+        if((!receiver || !sender) && users && user && allowed){
+            users.map( async usr => {
+                if(user != usr){
+                    if(!receiver)setReceiver( await getUserProfile(usr))
+                }else{
+                    if(!sender)setSender( await getUserProfile(user))
+                }
+            })
+
         }
+        
     }
     setUp()
-    function sendMessage(user, message, attachment){
-        if(allowed){
+    
+    async function sendMessage(user, message, attachment){
+        if(true && receiver){
             if(attachment){
                 var formData = new FormData();
                 formData.append("file", attachment);
@@ -83,17 +89,18 @@ const Messages = props => {
                     headers: {
                     'Content-Type': 'multipart/form-data'
                     }
-                }).then( res => {
-                    const data = { sender:user, message:message, attachment:res.data }
-                    axios.post(`/api/messages/add/${id}`, data ).then(res => setText(''))
+                }).then( async res => {
+                    const data = { sender:user, message:message, attachment:res.data, id:id, receiver:receiver.username }
+                    await socket.emit('send-message', data )
                     setAttachment('');
                     setAttachmentDisplay('')
     
                 })
             }else{
-                const data = { sender:user, message:message, attachment:attachment }
-                axios.post(`/api/messages/add/${id}`, data ).then(res => setText(''))
+                const data = { sender:user, message:message, attachment:attachment, id:id,receiver:receiver.username }
+                await socket.emit('send-message', data )
             }
+            setText('')
 
         }
         
@@ -102,7 +109,7 @@ const Messages = props => {
 
  
     function getMessageType(user, text, attachment, msgSender, image  ){
-        if(msgSender == user){
+        if(msgSender == user && sender){
             return(
                 <div className='flex m-5 justify-end gap-2'>
                     <div style={{overflowWrap:'anywhere'}} className='p-5 max-w-[70%] flex-col  flex w-fit  rounded-2xl border border-black'>
@@ -121,7 +128,7 @@ const Messages = props => {
                 </div>
             )
             
-        }else if(msgSender != user && msgSender){
+        }else if(msgSender != user && sender && msgSender){
             return(
                 <div className='flex m-5 gap-2'>
                     <img src={receiver.profile_pic || placeholder} className='rounded-full  h-10 w-10 h-full bg-black mx-2 '/>
@@ -142,31 +149,66 @@ const Messages = props => {
         }
     }
 
-    async function updateMessages(id){
-        if(allowed){
-            const res = await axios.post(`/api/messages/get/${id}`);
-            if(messages != res.data.messages){
-                setMessages(res.data.messages);
-            }
-
+    
+    
+    async function updateChats(){
+        const res = await getUserChats(user)
+        if(res != chats && res){
+            setChats(  res);
         }
     }
-    async function updateChats(){
-            const res = await getUserChats(user)
-            if(res != chats){
-                
-                setChats(  res);
-            }
+
+    function loadMessages(){
+        if(messages.length == 0 && id){
+            socket.emit('load', id);
+        }
+    
+    }
+    function refresh(){
+        setMessages([])
+        loadMessages();
+        setReceiver('')
+        socket.emit('join-room', id);
+        window.location.reload()
+
     }
 
     useEffect(() => {
+        
+        if(!stateId && id){
+            setStateId(id)
+        }
         if(stateId != id && stateId) {
-            setReceiver('')
-            window.location.reload()
+            setStateId(id)
+            refresh()
         };
-        if(id)updateMessages(id); checkAllowed();
-        if(user)updateChats(user)
-    },[id, messages, processed, allowed])
+        if(id)loadMessages(id);
+        socket.on('allMessages', data => {
+            if(data.messages.length > 0){
+                setMessages(data.messages)
+            }else{
+                setMessages(['string to stop infinite loop'])
+            }
+            setUsers(data.users)
+            
+
+        })
+        if(id && user && sender){
+            if(sender.unread.includes(id)){
+                socket.emit('clear-unread',{id:id, username:user})
+
+            }
+        }
+        if(!joined && id){
+            socket.emit('join-room', id);
+            setJoined(true)
+        }
+        socket.on('receive-message', id =>{
+            socket.emit('load', id);
+            updateChats()
+        })
+        
+    },[id, messages,receiver, processed, allowed, chats, user, users, attachmentDisplay, attachment])
     
     function handleClick(){
         document.getElementById('selectFile').click()
@@ -215,7 +257,7 @@ const Messages = props => {
                     { menuOpen &&
                         chats.map( chat => {
                             return(
-                                <Link to={`/profile/messages/${chat._id}`}>
+                                <Link  to={`/profile/messages/${chat._id}`} state={chats}>
                                     <div>
                                     
                                         {
@@ -248,6 +290,7 @@ const Messages = props => {
                 { 
                     id && <div className='w-full h-ful relative  flex flex-col'>
                     <div className='h-14 p-2 flex items-center  w-full bg-gray-300'>
+                        
                         <img src={receiver.profile_pic || placeholder} className='rounded-full  h-10 w-10 h-full bg-black mx-2 '/>
                         {receiver.username}
 
