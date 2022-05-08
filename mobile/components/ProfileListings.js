@@ -44,7 +44,6 @@ const ProfileListings = (props) => {
                 return(
                     <View key={item.id} style={styles.box}>
                         <View>
-                          
                           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={styles.category}>{item.category.toUpperCase()}</Text>
                             <TouchableOpacity

@@ -12,6 +12,10 @@ import Chat from './pages/Chat';
 import Favorite from './pages/Favorite';
 import Analytics from './pages/Analytics';
 import User from './pages/User';
+import StoreItems from './components/StoreItems';
+import Item from './pages/Item';
+import EditProfile from './pages/EditProfile';
+
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -28,6 +32,9 @@ export default function App() {
         <Stack.Screen name = "Favorite" component={Favorite}/>
         <Stack.Screen name = "Analytics" component={Analytics}/>
         <Stack.Screen name = "User" component={User}/>
+        <Stack.Screen name = "StoreItems" component={StoreItems}/>
+        <Stack.Screen name = "Item" component={Item}/>
+        <Stack.Screen name = "EditProfile" component={EditProfile}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -66,8 +66,20 @@ const Profile = ({ navigation, route }) => {
                 <View>
                     <View>
                         <View style={styles.bio_box}>
-                            <View style={{justifyContent:'center', alignItems: 'center', flexDirection: 'column'}}>
+                            <View >
+                                <View>
+                                    <View style={{alignItems: 'flex-end'}}>
+                                        <Button style={styles.edit_button}
+                                            title="Edit"
+                                            onPress={() => 
+                                                navigation.navigate('EditProfile')}>
+                                        </Button>
+                                    </View>
+                                </View>
+
                                 <Image style={styles.profile_pic} source={require('../assets/placeholder_user.png')}/>
+
+
                             </View>
 
                             <View style={styles.username_view}>
@@ -220,6 +232,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginBottom: 20,
       },
+    test_button: {
+        alignItems: "flex-end",
+        flex: 1,
+        paddingHorizontal: 10,
+        marginBottom: 20
+      },
     analytics_button: {
         textAlign: "center",
         fontSize: 20,
@@ -241,7 +259,17 @@ const styles = StyleSheet.create({
         backgroundColor : "#3f9669",
         justifyContent: "center",
         alignItems: "center",
-      }
+      },
+      edit_button: {
+        fontSize: 20,
+        fontWeight: "bold",
+        height: 40,
+        width:160,
+        borderRadius:10,
+        position: 'absolute',
+        right: 5,
+        top: 5,
+      },
   });
 
 export default Profile;
