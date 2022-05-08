@@ -36,6 +36,7 @@ const userSchema = new Schema({
         default:Date.now,
     },
     items: [{type: Schema.Types.ObjectId, ref: 'Item'}],
+    unread:Array,
     reviews_for: [{type: Schema.Types.ObjectId, ref: 'Review'}],
     reviews_to: [{type: Schema.Types.ObjectId, ref: 'Review'}],
     requests_for: [{type: Schema.Types.ObjectId, ref: 'Request'}],

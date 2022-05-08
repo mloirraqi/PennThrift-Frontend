@@ -49,23 +49,31 @@ router.route('/item/new').post((req, res) => {
 
 // get chats of user
 router.route('/chats/:username').get((req, res) => {
-    User.findOne({ username: req.params.username }, {username: 1, chats: 1})
-   .populate({
-       path:'chats',
-       options:{sort:{ updatedAt: -1 }}
-    }).exec((err, user) => {
-       res.json(user.chats);
-   })
-   // .catch(err => res.status(400).json('Error! ' + err))
+    try{
+        User.findOne({ username: req.params.username }, {username: 1, chats: 1})
+        .populate({
+            path:'chats',
+            options:{sort:{ updatedAt: -1 }}
+         }).exec((err, user) => {
+            res.json(user.chats);
+        })
+    }catch{
+
+    }
+    
 });
 
 // get items of user
 router.route('/items/:username').get((req, res) => {
-     User.findOne({ username: req.params.username }, {username: 1, items: 1})
-    .populate('items').exec((err, user) => {
-        res.json(user);
-    })
-    // .catch(err => res.status(400).json('Error! ' + err))
+    try{
+        User.findOne({ username: req.params.username }, {username: 1, items: 1})
+       .populate('items').exec((err, user) => {
+           res.json(user);
+       })
+
+    }catch{
+
+    }
 });
 
 module.exports = router;
