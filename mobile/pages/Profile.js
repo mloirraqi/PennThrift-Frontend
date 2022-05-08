@@ -1,58 +1,74 @@
 import React from 'react';
 import axios from "axios";
-import { Component, useEffect, useState } from "react";
 import Header from "../components/Header";
 import ProfileListings from "../components/ProfileListings";
 import { Alert, StyleSheet, Text, View, Image, Pressable, Button, ScrollView, TouchableHighlight } from 'react-native';
 import { Linking } from 'react-native';
-
+import placeholder from '../assets/placeholder_user.png'
 
 const Profile = ({ navigation, route }) => {
 
     const { replace, username } = route.params;
 
-    /*
-    state = {
+    
+    const state = {
         items:[],
-        user: global.USER
+        user:global.USER,
+        bio:'',
+        profile_pic:'',
+        venmo:'',
+        year:'',
+        processed:false,
+        userInfo:'',
+        interests:[],
     }
 
-    componentDidMount(){
-        if(!this.state.user){
-            axios.get('/api/auth/user')
-                 .then( res => {
-                    this.setState({ user: res.data})
-                });
-        }
-        if(this.state.items.length === 0 && this.state.user){
-            axios.get('/api/profile/items/'+ this.state.user)
-                    .then( res => {this.setState({items: res.data.items.reverse()})})
-                    .catch(e => console.log(e))
-        }
-    }
-    componentDidUpdate(){
-        if(!this.state.user){
-            axios.get('/api/auth/user')
-                 .then( res => {
-                    this.setState({ user: res.data})
-                });
-        }
-        if(this.state.items.length === 0 && this.state.user){
-            axios.get('/api/profile/items/'+ this.state.user)
-                    .then( res => {this.setState({items: res.data.items.reverse()})})
-                    .catch(e => console.log(e))
-        }
+    const processUserInfo = (info) => {
+        const {class_year, bio, interests, venmo, profile_pic } = info;
+        this.setState({bio:bio, year:class_year, venmo:venmo, profile_pic:profile_pic});
+        if(interests)this.setState({interests:interests});
     }
 
-    refresh = () =>{
-        const user = this.state.user;
+    React.useEffect(() => {
+        const user = state.user;
+        const items = state.items;
+        const processed = state.processed;
+        const userInfo = state.userInfo;
+        if(!user){
+            //TODO: this call is not working because 
+            //server/auth.js in router.get('/user')
+            //req.session.user is not working (returns null)
+            axios.get('http://localhost:4000/api/auth/user')
+                 .then( res => {
+                    this.setState({ user: res.data});
+            });
+        }
+        if(items.length === 0 && user){
+    
+            axios.get(`http://localhost:4000/api/profile/items/${user}`)
+                    .then( res => {this.setState({items: res.data.items.reverse()})})
+                    .catch(e => console.log(e))
+
+        }
+        
+        if(user)getUserProfile(user).then(info => this.setState({userInfo:info}))
+        if(user && userInfo && !processed){
+            processUserInfo(userInfo);
+            this.setState({processed:true})
+        }
+    })
+
+
+    
+    const refresh = () =>{
+        const user = state.user;
         if(user){
-            axios.get('/api/profile/items/'+ user)
+            axios.get('http://localhost:4000/api/profile/items/'+ user)
                     .then( res => {this.setState({items: res.data.items.reverse()})})
                     .catch(e => console.log(e))
         }
     }
-    */
+    
 
     const description = "Living life and tryna make money"
     const class_year = 2022
@@ -66,29 +82,17 @@ const Profile = ({ navigation, route }) => {
                 <View>
                     <View>
                         <View style={styles.bio_box}>
-                            <View >
-                                <View>
-                                    <View style={{alignItems: 'flex-end'}}>
-                                        <Button style={styles.edit_button}
-                                            title="Edit"
-                                            onPress={() => 
-                                                navigation.navigate('EditProfile')}>
-                                        </Button>
-                                    </View>
-                                </View>
-
-                                <Image style={styles.profile_pic} source={require('../assets/placeholder_user.png')}/>
-
-
+                            <View style={{justifyContent:'center', alignItems: 'center', flexDirection: 'column'}}>
+                                <Image style={styles.profile_pic} source={state.profile_pic || placeholder}/>
                             </View>
 
                             <View style={styles.username_view}>
-                                <Text style={styles.username}>{username}</Text>
+                                <Text style={styles.username}>{state.user}</Text>
                             </View>
 
                             <View style={styles.description_view}>
                                 <Text style={styles.description_text}>
-                                    {description}
+                                    {state.bio}
                                 </Text>
                             </View>
 
@@ -99,7 +103,7 @@ const Profile = ({ navigation, route }) => {
                                 <Image style={{marginLeft: 30, marginRight: 15, width:25, height:30}} source={require('../assets/penn_logo.png')}/>
 
                                 <Text style={styles.title_text}>Class of </Text>
-                                <Text style={styles.title_text}>{class_year}</Text>
+                                <Text style={styles.title_text}>{state.year}</Text>
                             </View>
 
                             <View style={{marginBottom: 20}}></View>
@@ -116,7 +120,7 @@ const Profile = ({ navigation, route }) => {
                                 <View>
                                     <View style={{flexDirection:'row', alignItems:'center'}}>
                                         <Image style={{marginLeft: 15, }} source={require('../assets/vimeo.png')}/>
-                                        <Text style={styles.venmo_text}>{venmo_handle}</Text>
+                                        <Text style={styles.venmo_text}>{state.venmo}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -155,8 +159,8 @@ const Profile = ({ navigation, route }) => {
                             
                         <View>
                             <ProfileListings
-                                //refresh={this.refresh}
-                                //data={this.state.items}
+                                refresh={refresh}
+                                //data={state.items}
                                 user={username}
                                 navigation={navigation}
                                 />
@@ -232,12 +236,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginBottom: 20,
       },
-    test_button: {
-        alignItems: "flex-end",
-        flex: 1,
-        paddingHorizontal: 10,
-        marginBottom: 20
-      },
     analytics_button: {
         textAlign: "center",
         fontSize: 20,
@@ -259,17 +257,7 @@ const styles = StyleSheet.create({
         backgroundColor : "#3f9669",
         justifyContent: "center",
         alignItems: "center",
-      },
-      edit_button: {
-        fontSize: 20,
-        fontWeight: "bold",
-        height: 40,
-        width:160,
-        borderRadius:10,
-        position: 'absolute',
-        right: 5,
-        top: 5,
-      },
+      }
   });
 
 export default Profile;

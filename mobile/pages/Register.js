@@ -6,27 +6,25 @@ import axios from 'axios';
 
 const Register = ({ navigation }) => {
     const [error, setError] = React.useState();
-    const address = '/api/auth/register'; 
+    const address = 'http://localhost:4000/api/auth/register'; 
 
     function userDetails(username,password){
 
         const data = {
             'username':username,
             'password':password,
-            'email':username,
         };
 
-        /*
+        
         axios.post(address, data).then(res =>{
             if(res.data === "error"){
                 setError('Username has already been taken');
             }else{
-                localStorage.setItem('username',username)
-                navigation.navigate('/profile', { replace: true })
+                global.LOGGED_IN = true;
+                navigation.navigate('Profile', { replace: true, username: data.username })
             }
         })
-        */
-        navigation.navigate('Profile', { replace: true, username: data.username })
+        
     
     }
 

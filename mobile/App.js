@@ -15,10 +15,18 @@ import User from './pages/User';
 import StoreItems from './components/StoreItems';
 import Item from './pages/Item';
 import EditProfile from './pages/EditProfile';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 
 const Stack = createNativeStackNavigator();
 export default function App() {
+  const [loggedin, setLoggedin] = useState(null)
+
+  axios.post('http://localhost:4000/api/auth/').then(res => {
+    global.LOGGED_IN = res.data[0];
+    setLoggedin(res.data[0])
+});
   return (
     <NavigationContainer>
       <Stack.Navigator>
