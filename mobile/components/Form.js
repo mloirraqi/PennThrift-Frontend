@@ -43,6 +43,7 @@ const Form = (props) => {
                         </View>
                         <View style={{backgroundColor:"#fff", paddingTop:5, paddingBottom:5, borderWidth:1, borderColor:"#0053bf"}}>
                             <TextInput
+                                secureTextEntry={true}
                                 style={styles.text_box}
                                 placeholder='  Input password'
                                 onChangeText={onChangePassword}

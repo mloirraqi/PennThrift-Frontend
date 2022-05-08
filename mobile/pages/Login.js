@@ -7,7 +7,7 @@ import axios from 'axios';
 
 function Login({ navigation }) {
     const [error, setError] = React.useState();
-    const address = '/api/auth/login'; 
+    const address = 'http://localhost:4000/api/auth/login'; 
 
     // function that sets user details
     function userDetails(username,password) {
@@ -17,20 +17,19 @@ function Login({ navigation }) {
             'email':username,
         };
 
-        /*
+        
         axios.post(address, data).then(res =>{
-
             if(res.data === 'success'){
-                // global.LOGGED_IN = true;
+                global.LOGGED_IN = true;
                 navigation.navigate('Profile', { replace: true, username: data.username })
             }
         }).catch(err =>{
             return err.message.split(" ").pop() == '401' ? 
             setError('We don’t recognize that username and password. Please try again.') : null
         })
-        */
+        
 
-        navigation.navigate('Profile', { replace: true, username: data.username })
+        // navigation.navigate('Profile', { replace: true, username: data.username })
     }
 
     function reset() {

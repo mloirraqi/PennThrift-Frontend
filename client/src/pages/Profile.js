@@ -29,6 +29,7 @@ export default class Profile extends Component {
         if(!user){
             axios.get('/api/auth/user')
                  .then( res => {
+                    console.log(res);
                     this.setState({ user: res.data});
             });
         }
