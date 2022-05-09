@@ -6,7 +6,7 @@ const Welcome = () =>{
     return(
         <div className='grid grid-main justify-center w-full h-full items-center'>
             <div className='col-span-8'>
-                <img src={require('../assets/logo.png')} className='h-24 mx-auto w-24'/>
+                <img alt='' src={require('../assets/logo.png')} className='h-24 mx-auto w-24'/>
                 <div className='my-5 text-5xl'>Welcome to PennThrift!</div>
                 <div className='w-full h-[1px] bg-[gray]'></div>
                 <div className='my-5'>Your one-stop-shop for buying, trading, gifting, and thrifting at Penn.</div>
