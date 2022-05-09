@@ -3,7 +3,7 @@ import axios from "axios";
 import { Component, useEffect, useState } from "react";
 import Header from "../components/Header";
 import ProfileListings from "../components/ProfileListings";
-import { StyleSheet, Text, View, Image, Button } from 'react-native';
+import { Alert, StyleSheet, Text, View, Image, Button, TouchableHighlight } from 'react-native';
 import { Linking } from 'react-native';
 import { Dimensions } from 'react-native';
 
@@ -124,6 +124,13 @@ const Profile = ({ navigation }) => {
                                     onPress={() => Linking.openURL('http://google.com')}>
                                         Google
                                     </Text>
+                                    <TouchableHighlight
+                                        onPress={() => 
+                                            navigation.navigate('EditProfile')}>
+                                            <View style={styles.login}>
+                                            <Text style={{fontSize: 16, fontWeight: "bold", color: "white"}}>EditProfile</Text>
+                                            </View>
+                                    </TouchableHighlight>
 
                                 </View>
                             </View>

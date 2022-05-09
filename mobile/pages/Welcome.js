@@ -58,7 +58,7 @@ const Welcome = ({ navigation }) =>{
                      <View style={styles.button}>
                             <TouchableHighlight
                                 onPress={() => 
-                                    navigation.navigate('Profile')}>
+                                    navigation.navigate('Profile', {replace: true, username: "christian"})}>
                                 <View style={styles.test_button}>
                                   <Text style={{fontSize: 16, fontWeight: "bold", color: "white"}}>Test Profile</Text>
                                 </View>
