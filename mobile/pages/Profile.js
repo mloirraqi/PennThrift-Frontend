@@ -15,22 +15,8 @@ const Profile = ({ navigation, route }) => {
     const { replace, username } = route.params;
     const [state, setState] = useState({});
 
-    // var state = {
-    //     items:[],
-    //     user: username,
-    //     bio:'',
-    //     profile_pic:'',
-    //     venmo:'',
-    //     year:'',
-    //     processed:false,
-    //     userInfo:'',
-    //     interests:[],
-    // }
-
     const processUserInfo = (info) => {
         const {class_year, bio, interests, venmo, profile_pic } = info;
-        // this.setState({bio:bio, year:class_year, venmo:venmo, profile_pic:profile_pic});
-        // if(interests)this.setState({interests:interests});
         setState(state => ({
             ...state,
             bio: bio,
@@ -51,19 +37,9 @@ const Profile = ({ navigation, route }) => {
         const items = state.items || [];
         const processed = state.processed || false;
         const userInfo = state.userInfo || '';
-        // if(!user){
-        //     //TODO: this call is not working because 
-        //     //server/auth.js in router.get('/user')
-        //     //req.session.user is not working (returns null)
-        //     axios.get('http://localhost:4000/api/auth/user')
-        //          .then( res => {
-        //             this.setState({ user: res.data});
-        //     });
-        // }
+
         if(items.length === 0 && user){
-            // axios.get(`http://localhost:4000/api/profile/items/${user}`)
-            //         .then( res => {setState({items: res.data.items.reverse()})})
-            //         .catch(e => console.log(e))
+
             axios.get(`http://localhost:4000/api/profile/items/${user}`)
             .then( res => {
                 if (!logged) {
@@ -86,26 +62,25 @@ const Profile = ({ navigation, route }) => {
                 userInfo: info,
             })))
         }
-        // if(user)getUserProfile(user).then(info => this.setState({userInfo:info}))
         if(user && userInfo && !processed){
             processUserInfo(userInfo);
             setState(state => ({
                 ...state,
                 processed: true
             }))
-            // this.setState({processed:true})
         }
-    })
+    }, [state]);
 
+    React.useEffect(() => {
+        return () => {
+          setState({});
+        };
+      }, []);
 
     
     const refresh = () =>{
         const user = state.user || '';
-        // if(user){
-        //     axios.get('http://localhost:4000/api/profile/items/'+ user)
-        //             .then( res => {this.setState({items: res.data.items.reverse()})})
-        //             .catch(e => console.log(e))
-        // }
+
         if(user){
             axios.get('http://localhost:4000/api/profile/items/'+ user)
             .then(res => setState(state => ({
@@ -115,12 +90,8 @@ const Profile = ({ navigation, route }) => {
             .catch(e => console.log(e))
         }
     }
-    
 
-    // const description = "Living life and tryna make money"
-    // const class_year = 2022
     const interests = state.interests || [];
-    // const venmo_handle = "@Thrift_God.69"
 
     return(
         <View>

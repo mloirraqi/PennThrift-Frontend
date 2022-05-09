@@ -77,9 +77,9 @@ const StoreItems = (props) => {
         return(
             <View>
                 {
-                    items.map((item) => {
+                    items.map((item, index) => {
                         return(
-                            <View key={item.id} style={styles.box}>
+                            <View key={`${item.name} ${index}`} style={styles.box}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <Text style={styles.category}>{item.category.toUpperCase()}</Text>
                                 </View>                                

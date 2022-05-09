@@ -5,9 +5,19 @@ import { Alert, StyleSheet, Text, TextInput, View, Image, Pressable, Button, Scr
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import StoreItems from "../components/StoreItems";
 import { Component } from "react";
-
+import { useState, useEffect } from 'react';
 
 const Store = ({ navigation, route }) => {
+
+    const [state, setState] = useState({items:[]});
+
+    useEffect(() => {
+        if (state.items.length === 0) {
+            axios.get('http://localhost:4000/api/item/all/')
+            .then(res => setState({items: res.data}))
+            .catch(e => console.log(e));
+        }
+    }, [state])
 
     const item1 = {
         id:1,
@@ -25,30 +35,7 @@ const Store = ({ navigation, route }) => {
         price:"40,000"
     };
 
-    const items = [item1, item2];
-
-    /*
-    state = {
-        items:[],
-    }
-    componentDidMount(){
-        if(this.state.items.length === 0){
-            axios.get('/api/item/all')
-                    .then( res => this.setState({items: res.data}))
-                    .catch(e => console.log(e))
-        }
-    }
-    componentDidUpdate(){
-        if(this.state.items.length === 0){
-    
-            axios.get('/api/item/all')
-                    .then( res => {this.setState({items: res.data})})
-                    .catch(e => console.log(e))
-        }
-    }
-    */
-
-    const greeting = "Hey welcome to the store"
+    const items = state.items || [];
 
     return(
         <ScrollView>
