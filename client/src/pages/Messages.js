@@ -1,3 +1,4 @@
+
 import Header from '../components/Header';
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -81,7 +82,7 @@ const Messages = props => {
     setUp()
     
     async function sendMessage(user, message, attachment){
-        if(true && receiver){
+        if(allowed && receiver){
             if(attachment){
                 var formData = new FormData();
                 formData.append("file", attachment);

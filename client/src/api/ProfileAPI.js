@@ -97,3 +97,13 @@ export const getUserImage = async(username) => {
         return res.data.profile_pic;
     } catch (err) {}
 }
+
+export const getUserFavourites = async(username) => {
+    if(username){
+        try{
+            const res = await axios.post('/api/profile/favourites',{username:username});
+            return res.data;
+        }catch(err){}
+
+    }
+}

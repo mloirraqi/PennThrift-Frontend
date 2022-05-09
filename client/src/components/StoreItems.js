@@ -1,18 +1,18 @@
 import axios from 'axios';
 import { Component } from 'react'
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 
 
 
-
-export default class StoreItems extends Component{
+class StoreItems extends Component{
 
     state = {
         items:[],
         favourites:[],
-        updatedItems:[]
+        updatedItems:[],
 
     }
 
@@ -20,6 +20,7 @@ export default class StoreItems extends Component{
     constructor(props){
         super(props);
         this.setState({items:[...props.data]}) 
+        this.setState({favourites:[...props.favourites] });
     }
     componentDidMount(){
         const items = this.props.data;
@@ -32,6 +33,10 @@ export default class StoreItems extends Component{
         const items = this.state.items;
         if(items != this.props.data ){
             this.setState({items: this.props.data})
+         }
+         const favourites = this.state.favourites;
+         if(favourites != this.props.favourites){
+             this.setState({favourites:this.props.favourites})
          }
     }
     
@@ -47,15 +52,18 @@ export default class StoreItems extends Component{
             return require('../assets/favourite.png')
         }
 
-        const update = (id) =>{
+        const update = async(id) =>{
             let favourites = this.state.favourites;
-            if(favourites.includes(id)){
-               favourites =  favourites.filter( (item) =>{
-                       return item !== id;
-                });
-               return this.setState({favourites:favourites})
+            const user = this.props.user;
+            
+            if(user){
+                
+                await axios.post('/api/profile/favourites/update',{itemID:id, username:user})
+                this.props.refresh()
+
+            }else{
+                this.props.navigate('/login')
             }
-           return this.setState({favourites:[...this.state.favourites,id]})
         }
 
         
@@ -98,3 +106,13 @@ export default class StoreItems extends Component{
         )
     }
 }
+
+const withNavigation = (Component) =>{
+    
+    return function WrappedComponent(props) {
+        const navigate = useNavigate();
+        return <Component {...props} navigate={navigate} />;
+      }
+}
+
+export default withNavigation(StoreItems);

@@ -47,6 +47,36 @@ router.route('/item/new').post((req, res) => {
     
 })
 
+router.route('/favourites/update').post(( req, res) => {
+    const { itemID, username } = req.body;
+    User.findOne({username:username}).then( user => {
+        Item.findOne({_id:itemID}).then( item => {
+            const remove = user.favourites.includes(itemID);
+            if(remove){
+                User.findOneAndUpdate(
+                    { username:username },
+                    { $pullAll: {favourites:[{_id:itemID}] }}
+                ).exec();
+
+            }else{
+                User.findOneAndUpdate(
+                    { username:username },
+                    { $addToSet: {favourites:item }}
+                ).exec();
+
+            }
+            res.json(user.favourites)
+        } )
+    })
+});
+
+router.route('/favourites').post( (req, res) => {
+    const { username } = req.body;
+    User.findOne({username:username}).populate('favourites').then( user => {
+        res.json(user.favourites)
+    });
+})
+
 // get chats of user
 router.route('/chats/:username').get((req, res) => {
     try{
@@ -62,6 +92,8 @@ router.route('/chats/:username').get((req, res) => {
     }
     
 });
+
+
 
 // get items of user
 router.route('/items/:username').get((req, res) => {

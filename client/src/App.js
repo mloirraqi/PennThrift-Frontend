@@ -21,6 +21,7 @@ import User from './pages/User';
 import Analytics from './pages/Analytics';
 import Item from './pages/Item';
 import Messages from './pages/Messages';
+import Favourites from './pages/Favourites';
 
 function App() {
   const [loggedin, setLoggedin] = useState(null)
@@ -67,6 +68,7 @@ function App() {
                 <Route path="/profile/analytics" element={<Analytics/>} />
                 <Route path="/profile/messages" element={<Messages/>} />
                 <Route path="/profile/messages/:id" element={<Messages/>} />
+                <Route path="/profile/favourites" element={<Favourites/>} />
               </Route>
               
           </Routes>
