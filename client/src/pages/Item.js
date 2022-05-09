@@ -1,12 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import StoreItems from '../components/StoreItems';
-import { useParams } from "react-router-dom";
 import placeholder from '../assets/placeholder_item.png';
-
-
+import { getUserFavourites } from "../api/ProfileAPI";
 
 
 
@@ -21,6 +19,8 @@ const Item = props => {
     const [similarItems, setSimilarItems ]  = useState([]);
     const { id } = useParams();
     const [stateId, setStateId]             = useState(id);
+    const [processed, setProcessed] = useState(false)
+    const navigate = useNavigate()
 
     const getInfo = async () => {
         if (!item || !viewer) {
@@ -43,22 +43,15 @@ const Item = props => {
     }
     getInfo();
 
-    const favourite = (id) =>{
-        if(favourites.includes(id)){
-            return require('../assets/favourite_red.png')
+    
+    const update = async(id) =>{
+        if(viewer){
+            
+            await axios.post('/api/profile/favourites/update',{itemID:id, username:viewer})
+            refresh()
+        }else{
+            navigate('/login')
         }
-        return require('../assets/favourite.png')
-    }
-
-    const update = (id) =>{
-        if(favourites.includes(id)){
-           favourites =  favourites.filter( (item) =>{
-                   return item !== id;
-            });
-           return setFavourites(favourites)
-        }
-        
-       return setFavourites([...favourites,id]);
     }
     
     const filter = (items) =>{
@@ -92,14 +85,44 @@ const Item = props => {
         }
     }
 
+    const refresh = async() => {
+        if(viewer){
+            const fav = await getUserFavourites(viewer);
+            fav.map( f => {
+                setFavourites([...favourites, f._id])
+            });
+            setProcessed(true)
+        }
+    }
+
+    async function setUp(){
+        if(viewer && favourites.length == 0 && !processed){
+            const fav = await getUserFavourites(viewer);
+            fav.map( f => {
+                setFavourites([...favourites, f._id])
+            });
+            setProcessed(true)
+        }
+    }
+
    
     useEffect(() => {
         
         if((stateId != id) && stateId){
             window.location.reload()
         }
-        fecthSimilar()
-    },[similarItems,id, item, viewer, viewed, favourites, stateId])
+        fecthSimilar();
+        setUp();
+    },[similarItems,id, item, viewer, viewed, favourites, stateId]);
+
+
+    const favourite = (id) =>{
+        if(favourites.includes(id)){
+            return require('../assets/favourite_red.png')
+        }
+        return require('../assets/favourite.png')
+    }
+
 
     return(
         <div>
@@ -129,7 +152,11 @@ const Item = props => {
                         <div className="font-semibold text-lg">
                             Similar Items
                         </div>
-                        <StoreItems data={similarItems}/>
+                        <StoreItems 
+                            favourites={ favourites }
+                            refresh= {refresh}
+                            user={viewer}
+                            data={similarItems}/>
                     </div>
                 </div>
 
