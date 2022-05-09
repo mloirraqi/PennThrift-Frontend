@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'http://localhost:4000/api/profile/';
+const url = 'https://penn-thrift.herokuapp.com/api/profile/';
 export const getAllUserProfiles = async () => {
     try {
         const res = await axios.get(url);
